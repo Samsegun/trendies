@@ -1,9 +1,18 @@
+import React from "react";
 import Head from "next/head";
+import { GetStaticProps, NextPage } from "next";
 import { Inter } from "@next/font/google";
+import { getAllProducts } from "@/utils/ApiRequets";
+import { ProductArray } from "@/types/productType";
+import ImageContainer from "@/components/UI/ImageContainer";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Home() {
+const Home: NextPage<{ products: ProductArray }> = ({ products }) => {
+    console.log(products);
+
+    const firstProduct = products[0];
+
     return (
         <>
             <Head>
@@ -19,15 +28,26 @@ export default function Home() {
                 <link rel='icon' href='/favicon.ico' />
             </Head>
 
-            <p>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Illum
-                maiores molestias consequatur inventore nihil quis et unde
-                suscipit, iure sed debitis repudiandae at tenetur vero ipsa, sit
-                ducimus? Exercitationem corrupti natus asperiores eius delectus
-                consequuntur illum labore provident, ipsum tempore veritatis,
-                sapiente molestiae ipsa, harum ratione quas et? Consequuntur,
-                voluptatum.
-            </p>
+            <div>
+                <div>
+                    <h1>{firstProduct.title}</h1>
+
+                    <p>{firstProduct.description}</p>
+                </div>
+
+                <ImageContainer imagePath={firstProduct.image} />
+            </div>
         </>
     );
-}
+};
+
+export const getStaticProps: GetStaticProps<{
+    products: ProductArray;
+}> = async () => {
+    const res = await getAllProducts();
+    const products = res.data;
+
+    return { props: { products } };
+};
+
+export default Home;

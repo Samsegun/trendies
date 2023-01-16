@@ -1,0 +1,19 @@
+.image-wrapper > img {
+ width: 250px;
+ height: auto;
+ border-radius: 8px;
+}
+
+@media (min-width: 768px) {
+    .image-wrapper > img {
+        width: 350px;
+        height: 350px;
+       }
+}
+
+@media (min-width: 1280px) {
+    .image-wrapper > img {
+        width: 500px;
+        height: 500px;
+       }
+}
