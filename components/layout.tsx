@@ -1,16 +1,19 @@
+import { ParamsProvider } from "@/context/productParams";
 import React from "react";
 import Footer from "./Footer/footer";
 import Header from "./Header/Header";
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     return (
-        <div>
-            <Header />
+        <ParamsProvider>
+            <div>
+                <Header />
 
-            <main className='min-h-screen'>{children}</main>
+                <main className='min-h-screen'>{children}</main>
 
-            <Footer />
-        </div>
+                <Footer />
+            </div>
+        </ParamsProvider>
     );
 };
 

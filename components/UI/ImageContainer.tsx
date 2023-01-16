@@ -1,7 +1,9 @@
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import styles from "../../styles/index.module.css";
 
-const ImageContainer: React.FC<{ imagePath: string }> = ({ imagePath }) => {
+const ImageContainer: React.FC<{ imagePath: StaticImageData }> = ({
+    imagePath,
+}) => {
     return (
         <div className={styles["image-wrapper"]}>
             <Image src={imagePath} alt='' width='1000' height='1000' />

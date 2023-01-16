@@ -9,14 +9,26 @@ export const ApiRequest = () => {
     return instance;
 };
 
+export const ApiGetRequest = (endPoint: string) => {
+    return ApiRequest().get<ProductArray>(endPoint);
+};
+
 export const getAllProducts = () => {
-    return ApiRequest().get<ProductArray>("/products");
+    return ApiGetRequest("/products");
 };
 
 export const getJeweleryProducts = () => {
-    return ApiRequest().get<ProductArray>("/products/category/jewelery");
+    return ApiGetRequest("/products/category/jewelery");
 };
 
 export const getElectronicProducts = () => {
-    return ApiRequest().get<ProductArray>("/products/category/electronics");
+    return ApiGetRequest("/products/category/electronics");
+};
+
+export const getMensProducts = () => {
+    return ApiGetRequest("/products/category/men's%20clothing");
+};
+
+export const getWomensProducts = () => {
+    return ApiGetRequest("/products/category/women's%20clothing");
 };
