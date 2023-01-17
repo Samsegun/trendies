@@ -1,0 +1,5 @@
+.banner-wrapper:hover .overlay {
+    background: #000;
+    opacity: 0.35;
+    transition: all 300ms ease-in-out;
+}

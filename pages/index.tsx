@@ -8,6 +8,9 @@ import ImageContainer from "@/components/UI/ImageContainer";
 import Link from "next/link";
 import { ParamsContext } from "@/context/productParams";
 import BannerSection from "@/components/Banner/BannerSection";
+import Container from "@/components/UI/container";
+import Highlights from "@/components/Highlights/highlights";
+import FeaturedProducts from "@/components/FeaturedProducts/FeaturedProducts";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -37,14 +40,20 @@ const Home: NextPage<{ products: ProductArray }> = ({ products }) => {
                 <link rel='icon' href='/favicon.ico' />
             </Head>
 
-            <div className='w-11/12 py-4 mx-auto'>
-                <BannerSection />
+            <Container>
+                <div className='w-11/12 py-4 mx-auto md:grid md:grid-cols-2 md:gap-4'>
+                    <BannerSection />
 
-                <Link href='/category/mens'>men's clothing</Link>
+                    {/* <Link href='/category/mens'>men's clothing</Link>
                 <Link href='/category/womens'>women's clothing</Link>
                 <Link href='/category/jewelery'>jewelery</Link>
-                <Link href='/category/electronics'>electronics</Link>
-            </div>
+                <Link href='/category/electronics'>electronics</Link> */}
+                </div>
+
+                <Highlights />
+
+                <FeaturedProducts />
+            </Container>
         </>
     );
 };
