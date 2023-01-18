@@ -9,6 +9,22 @@
     line-height: 1.25rem;
 }
 
+.cart-btn {
+    transform: translateY(100%);
+    opacity: 0;
+    transition: all 300ms ease-in-out;
+}
+
+.cart-btn:hover {
+    background: #c66;
+}
+
+.card-wrapper:hover .cart-btn{
+    transform: translateY(0);
+    opacity: 1;
+    transition: all 300ms ease-in-out;
+}
+
 
 @media (min-width: 425px) {
     .btn-wrapper {

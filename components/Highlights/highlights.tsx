@@ -1,3 +1,5 @@
+import Container from "../UI/container";
+
 const assets = [
     {
         icon: (
@@ -30,26 +32,30 @@ const assets = [
 
 const Highlights = () => {
     return (
-        <section
-            className='w-11/12 mx-auto mb-8 grid grid-cols-1 gap-y-4 sm:grid-cols-2
+        <Container>
+            <section
+                className='w-11/12 mx-auto mb-8 grid grid-cols-1 gap-y-4 sm:grid-cols-2
          md:grid-cols-3 md:mt-8  max-w-[1200px]'>
-            {assets.map((asset, idx) => {
-                return (
-                    <div key={idx} className='flex items-center gap-8'>
-                        <div>
-                            <span>{asset.icon}</span>
-                        </div>
+                {assets.map((asset, idx) => {
+                    return (
+                        <div key={idx} className='flex items-center gap-8'>
+                            <div>
+                                <span>{asset.icon}</span>
+                            </div>
 
-                        <div>
-                            <h3 className='uppercase text-[#333] tracking-widest'>
-                                {asset.heading}
-                            </h3>
-                            <p className='text-[#777] text-sm'>{asset.text}</p>
+                            <div>
+                                <h3 className='uppercase text-[#333] tracking-widest'>
+                                    {asset.heading}
+                                </h3>
+                                <p className='text-[#777] text-sm'>
+                                    {asset.text}
+                                </p>
+                            </div>
                         </div>
-                    </div>
-                );
-            })}
-        </section>
+                    );
+                })}
+            </section>
+        </Container>
     );
 };
 

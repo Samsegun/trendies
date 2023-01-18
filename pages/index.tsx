@@ -11,6 +11,7 @@ import BannerSection from "@/components/Banner/BannerSection";
 import Container from "@/components/UI/container";
 import Highlights from "@/components/Highlights/highlights";
 import FeaturedProducts from "@/components/FeaturedProducts/FeaturedProducts";
+import About from "@/components/About/about";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -49,11 +50,13 @@ const Home: NextPage<{ products: ProductArray }> = ({ products }) => {
                 <Link href='/category/jewelery'>jewelery</Link>
                 <Link href='/category/electronics'>electronics</Link> */}
                 </div>
-
-                <Highlights />
-
-                <FeaturedProducts />
             </Container>
+
+            <Highlights />
+
+            <FeaturedProducts />
+
+            <About />
         </>
     );
 };
