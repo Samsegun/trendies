@@ -31,6 +31,8 @@
 @media (min-width: 1280px) {
     .about {
         gap: 3rem;
+        margin-top: 6rem;
+        margin-bottom: 6rem;
     }
 
     .about article h2 {

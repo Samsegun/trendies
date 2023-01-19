@@ -1,7 +1,7 @@
 import Image, { StaticImageData } from "next/image";
 import styles from "../../styles/index.module.css";
 
-const ImageContainer: React.FC<{ imagePath: StaticImageData }> = ({
+const ImageContainer: React.FC<{ imagePath: StaticImageData | string }> = ({
     imagePath,
 }) => {
     return (

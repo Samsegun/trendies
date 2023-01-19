@@ -8,13 +8,13 @@ const Footer = () => {
     return (
         <footer className='text-white bg-black'>
             <Container>
-                <div className='px-6 py-12 tracking-widest text-center'>
-                    <div className='flex flex-col gap-12'>
+                <div className='px-6 py-12 tracking-widest text-center md:text-justify'>
+                    <div className='flex flex-col gap-12 xl:flex-row xl:justify-between xl:items-center'>
                         <h2 className='text-xl font-semibold uppercase'>
                             Trendies
                         </h2>
 
-                        <ul className='flex flex-col gap-4 uppercase'>
+                        <ul className='flex flex-col gap-4 uppercase md:flex-row'>
                             <li>home</li>
                             <li>mens</li>
                             <li>womens</li>
@@ -24,15 +24,15 @@ const Footer = () => {
                     </div>
 
                     <div className='flex flex-col gap-12 mt-12'>
-                        <p className='text-[#666]'>
-                            Audiophile is an all in one stop to fulfill your
-                            audio needs. We're a small team of music lovers and
-                            sound specialists who are devoted to helping you get
-                            the most out of personal audio. Come and visit our
-                            demo facility - we’re open 7 days a week.
+                        <p className='text-[#666] xl:w-1/2'>
+                            Trendies is an all in one stop to fulfill your wears
+                            and gadgets needs. We're a small team of fashion
+                            lovers and gadget freaks who are devoted to helping
+                            you get the most out of personal needs. Come and
+                            visit our store - we’re open 7 days a week.
                         </p>
 
-                        <div className='text-[#666] flex flex-col gap-12'>
+                        <div className='text-[#666] flex flex-col gap-12 md:flex-row md:justify-between'>
                             <p>
                                 &copy;{new Date().getUTCFullYear()}. All Rights
                                 Reserved

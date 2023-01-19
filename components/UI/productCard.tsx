@@ -1,11 +1,13 @@
 import Image from "next/image";
-import { ReactNode } from "react";
+import { FC, ReactNode } from "react";
 import styles from "../../styles/FeaturedProducts.module.css";
 import starIcon from "../../public/assets/star-filled.svg";
 import wishIcon from "../../public/assets/wishListIcon.svg";
 import addIcon from "../../public/assets/add_shopping_cart.svg";
 import darkJeans from "../../public/dark-jeans.jpg";
 import darkJeans2 from "../../public/dark-jeans2.jpg";
+import { ProductArray } from "@/types/productType";
+import ImageContainer from "./ImageContainer";
 
 type Props = { children: ReactNode };
 
@@ -62,39 +64,50 @@ const AddToCartBtn = () => {
     );
 };
 
-const ProductCard = () => {
+const ProductCard: FC<{ products: ProductArray }> = ({ products }) => {
     return (
         <div className='grid max-w-3xl gap-6 mx-auto sm:grid-cols-2'>
-            <CardWrapper>
+            {products.map((product, idx) => {
+                return (
+                    <CardWrapper key={idx}>
+                        <div className='relative'>
+                            <div className={styles["img-container"]}>
+                                <Image
+                                    src={product.image}
+                                    alt=''
+                                    className='rounded-lg'
+                                    width={1000}
+                                    height={1000}
+                                />
+                            </div>
+                            {/* <ImageContainer imagePath={product.image} /> */}
+
+                            <button
+                                type='button'
+                                className={
+                                    "absolute top-[10%] right-[10%] p-[0.3rem] bg-[#000000ba] rounded-full w-8 " +
+                                    styles["cart-btn"]
+                                }>
+                                <Image src={wishIcon} alt='add to wish list' />
+                            </button>
+
+                            <AddToCartBtn />
+                        </div>
+
+                        {/* product info */}
+                        <div className='px-8 py-6 text-center bg-white rounded-b-lg'>
+                            <h4>{product.title}</h4>
+                            <span>${product.price}</span>
+
+                            <Stars />
+                        </div>
+                    </CardWrapper>
+                );
+            })}
+
+            {/* <CardWrapper>
                 <div className='relative'>
-                    <div>
-                        <Image src={darkJeans} alt='' className='rounded-lg' />
-                    </div>
-
-                    <button
-                        type='button'
-                        className={
-                            "absolute top-[10%] right-[10%] p-[0.3rem] bg-[#000000ba] rounded-full w-8 " +
-                            styles["cart-btn"]
-                        }>
-                        <Image src={wishIcon} alt='add to wish list' />
-                    </button>
-
-                    <AddToCartBtn />
-                </div>
-
-                {/* product info */}
-                <div className='px-8 py-6 text-center bg-white rounded-b-lg'>
-                    <h4>Dark Jeans Gray</h4>
-                    <span>$350.00</span>
-
-                    <Stars />
-                </div>
-            </CardWrapper>
-
-            <CardWrapper>
-                <div className='relative'>
-                    <div>
+                    <div className={styles["img-container"]}>
                         <Image src={darkJeans2} alt='' className='rounded-lg' />
                     </div>
 
@@ -110,14 +123,14 @@ const ProductCard = () => {
                     <AddToCartBtn />
                 </div>
 
-                {/* product info */}
+                
                 <div className='px-8 py-6 text-center bg-white rounded-b-lg'>
                     <h4>Dark Jeans Gray</h4>
                     <span>$350.00</span>
 
                     <Stars />
                 </div>
-            </CardWrapper>
+            </CardWrapper> */}
         </div>
     );
 };

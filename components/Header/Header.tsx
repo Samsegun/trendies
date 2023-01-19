@@ -10,26 +10,44 @@ const Header = () => {
     return (
         <header className='bg-black text-[#fff]  p-4'>
             <Container>
-                <div className='flex justify-between items-center'>
-                    <div className='cursor-pointer'>
-                        <Image src={navIcon} alt='mobile menu' />
+                <div className='flex items-center justify-between w-11/12 mx-auto'>
+                    <div className='cursor-pointer xl:hidden'>
+                        <Image src={navIcon} alt='menu button' />
                     </div>
 
                     <h1 className='text-2xl font-bold'>Trendies</h1>
+
+                    <ul className='items-center hidden gap-8 uppercase xl:flex '>
+                        <li className='hover:text-[#e33f3f] cursor-pointer transition-all duration-300'>
+                            home
+                        </li>
+                        <li className='hover:text-[#e33f3f] cursor-pointer transition-all duration-300'>
+                            mens
+                        </li>
+                        <li className='hover:text-[#e33f3f] cursor-pointer transition-all duration-300'>
+                            womens
+                        </li>
+                        <li className='hover:text-[#e33f3f] cursor-pointer transition-all duration-300'>
+                            jewelry
+                        </li>
+                        <li className='hover:text-[#e33f3f] cursor-pointer transition-all duration-300'>
+                            electronics
+                        </li>
+                    </ul>
 
                     <div className='flex justify-between'>
                         <div
                             className={
                                 styles.wishlist +
-                                " relative mr-2 cursor-pointer"
+                                " relative mr-4 cursor-pointer"
                             }>
                             <Image src={wishListIcon} alt='wish list' />
-                            {/* <ItemCount position='bottom-[10px] -right-[16px]' /> */}
+                            <ItemCount position='bottom-[10px] -right-[16px]' />
                         </div>
 
-                        <div className='cursor-pointer relative'>
+                        <div className='relative cursor-pointer'>
                             <Image src={cartIcon} alt=' cart' />
-                            {/* <ItemCount position='bottom-4 -right-[14px]' /> */}
+                            <ItemCount position='bottom-4 -right-[14px]' />
                         </div>
                     </div>
                 </div>

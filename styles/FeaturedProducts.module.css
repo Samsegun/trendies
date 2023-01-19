@@ -4,9 +4,17 @@
     color: #666;
     padding: 0.25rem;
     text-transform: uppercase;
-    border-bottom: 1px solid #000;
     letter-spacing: 0.1em;
     line-height: 1.25rem;
+}
+
+.btn:hover {
+    color: #c66;
+}
+
+.active-btn {
+    color: #000;
+    border-bottom: 1px solid #000;
 }
 
 .cart-btn {
@@ -23,6 +31,12 @@
     transform: translateY(0);
     opacity: 1;
     transition: all 300ms ease-in-out;
+}
+
+.img-container img{
+    /* height: auto; */
+    max-width: 258px; 
+    max-height: 260px;
 }
 
 

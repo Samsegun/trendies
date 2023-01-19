@@ -34,8 +34,8 @@ const Highlights = () => {
     return (
         <Container>
             <section
-                className='w-11/12 mx-auto mb-8 grid grid-cols-1 gap-y-4 sm:grid-cols-2
-         md:grid-cols-3 md:mt-8  max-w-[1200px]'>
+                className='w-11/12 mx-auto mb-8 grid grid-cols-1 gap-y-10 sm:grid-cols-2
+         md:grid-cols-3 md:mt-8 xl:max-w-[80%] xl:my-24'>
                 {assets.map((asset, idx) => {
                     return (
                         <div key={idx} className='flex items-center gap-8'>
