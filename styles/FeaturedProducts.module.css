@@ -27,21 +27,39 @@
     background: #c66;
 }
 
+.card-wrapper {
+    grid-template-columns: auto;
+    grid-template-rows: 300px 1fr;
+}
+
+.card-wrapper img{
+   object-fit: cover;
+}
+
 .card-wrapper:hover .cart-btn{
     transform: translateY(0);
     opacity: 1;
     transition: all 300ms ease-in-out;
 }
 
-.img-container img{
-    /* height: auto; */
-    max-width: 258px; 
-    max-height: 260px;
-}
+ @media (min-width: 350px) {
+    .card-wrapper {
+        grid-template-columns: 300px;
+        grid-template-rows: 300px 1fr;
+    }
+ }
 
 
 @media (min-width: 425px) {
     .btn-wrapper {
         flex-direction: row;
     }
+}
+
+@media (min-width: 768px) {
+    .card-wrapper {
+        grid-template-columns: 1fr;
+        grid-template-rows: 360px 1fr;
+    }
+
 }

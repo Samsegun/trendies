@@ -12,16 +12,26 @@ export const filterByCategory = (list: ProductArray, category: string) => {
     return newList;
 };
 
-export const checkDuplicates = () => {};
+export const checkAndRemoveDuplicates = (filteredList: ProductArray) => {
+    /* check and return different products */
+    const noDuplicates: ProductArray = [];
+
+    let index1 = randomIndex(filteredList);
+    let index2 = randomIndex(filteredList);
+
+    while (index1 === index2) {
+        index2 = randomIndex(filteredList);
+    }
+
+    noDuplicates.push(filteredList[index1], filteredList[index2]);
+
+    return noDuplicates;
+};
 
 export const getTwoRandomProducts = (list: ProductArray, category: string) => {
-    const twoRandomProducts: ProductArray = [];
-
     const filteredList = filterByCategory(list, category);
-    // console.log(list);
 
-    twoRandomProducts.push(filteredList[randomIndex(filteredList)]);
-    twoRandomProducts.push(filteredList[randomIndex(filteredList)]);
+    const noDuplicateProducts = checkAndRemoveDuplicates(filteredList);
 
-    return twoRandomProducts;
+    return noDuplicateProducts;
 };

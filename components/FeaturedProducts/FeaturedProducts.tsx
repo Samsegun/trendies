@@ -1,5 +1,5 @@
 import { ProductArray } from "@/types/productType";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import styles from "../../styles/FeaturedProducts.module.css";
 import Container from "../UI/container";
 import ProductCard from "../UI/productCard";
@@ -8,6 +8,10 @@ import { getTwoRandomProducts } from "@/utils/productUtils";
 const FeaturedProducts: FC<{ products: ProductArray }> = ({ products }) => {
     const [genderState, setGenderState] = useState({ women: true, men: false });
     const [filteredProducts, setFilteredProducts] = useState<ProductArray>([]);
+
+    useEffect(() => {
+        genderHandler("women's");
+    }, []);
 
     const genderHandler = (text: string) => {
         if (text === "men's") {
