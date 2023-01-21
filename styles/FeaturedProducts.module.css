@@ -32,9 +32,6 @@
     grid-template-rows: 300px 1fr;
 }
 
-.card-wrapper img{
-   object-fit: cover;
-}
 
 .card-wrapper:hover .cart-btn{
     transform: translateY(0);

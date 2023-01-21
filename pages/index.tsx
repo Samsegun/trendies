@@ -4,7 +4,6 @@ import { GetStaticProps, NextPage } from "next";
 import { Inter } from "@next/font/google";
 import { getAllProducts } from "@/utils/ApiRequets";
 import { ProductArray } from "@/types/productType";
-import ImageContainer from "@/components/UI/ImageContainer";
 import Link from "next/link";
 import { ParamsContext } from "@/context/productParams";
 import BannerSection from "@/components/Banner/BannerSection";
