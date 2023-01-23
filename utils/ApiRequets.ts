@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ProductArray } from "@/types/productType";
+import { Categories, ProductArray } from "@/types/productType";
 
 const constant = "https://fakestoreapi.com/";
 
@@ -13,8 +13,20 @@ export const ApiGetRequest = (endPoint: string) => {
     return ApiRequest().get<ProductArray>(endPoint);
 };
 
+export const ApiGetCategories = (endPoint: string) => {
+    return ApiRequest().get<Categories>(endPoint);
+};
+
 export const getAllProducts = () => {
     return ApiGetRequest("/products");
+};
+
+export const getAllCategories = () => {
+    return ApiGetCategories("/products/categories");
+};
+
+export const getSingleCategory = (name: string) => {
+    return ApiGetRequest(`/products/category/${name}`);
 };
 
 export const getJeweleryProducts = () => {

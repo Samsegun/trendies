@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import styles from "../../styles/Header.module.css";
 import navIcon from "../../public/assets/navIcon.svg";
 import wishListIcon from "../../public/assets/wishListIcon.svg";
@@ -10,28 +11,32 @@ const Header = () => {
     return (
         <header className='bg-black text-[#fff]  p-4'>
             <Container>
-                <div className='flex items-center justify-between w-11/12 mx-auto'>
+                <div className='flex items-center justify-between w-11/12 mx-auto xl:w-auto'>
                     <div className='cursor-pointer xl:hidden'>
                         <Image src={navIcon} alt='menu button' />
                     </div>
 
-                    <h1 className='text-2xl font-bold'>Trendies</h1>
+                    <h1 className='text-2xl font-bold'>
+                        <Link href='/'>Trendies</Link>
+                    </h1>
 
                     <ul className='items-center hidden gap-8 uppercase xl:flex '>
                         <li className='hover:text-[#e33f3f] cursor-pointer transition-all duration-300'>
-                            home
+                            <Link href='/'>home</Link>
                         </li>
                         <li className='hover:text-[#e33f3f] cursor-pointer transition-all duration-300'>
-                            mens
+                            <Link href='/category/mens'>mens</Link>
                         </li>
                         <li className='hover:text-[#e33f3f] cursor-pointer transition-all duration-300'>
-                            womens
+                            <Link href='/category/womens'>womens</Link>
                         </li>
                         <li className='hover:text-[#e33f3f] cursor-pointer transition-all duration-300'>
-                            jewelry
+                            <Link href='/category/jewelery'>jewelry</Link>
                         </li>
                         <li className='hover:text-[#e33f3f] cursor-pointer transition-all duration-300'>
-                            electronics
+                            <Link href='/category/electronics'>
+                                electronics
+                            </Link>
                         </li>
                     </ul>
 

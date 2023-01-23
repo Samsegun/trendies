@@ -9,3 +9,5 @@ export type Product = {
 };
 
 export type ProductArray = Product[];
+
+export type Categories = string[];
