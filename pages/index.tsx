@@ -23,8 +23,6 @@ const Home: NextPage<{ products: ProductArray }> = ({ products }) => {
         setNewParams(productIds);
     }, []);
 
-    // const firstProduct = products[0];
-
     return (
         <>
             <Head>

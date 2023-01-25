@@ -29,6 +29,10 @@ export const getSingleCategory = (name: string) => {
     return ApiGetRequest(`/products/category/${name}`);
 };
 
+export const getSingleProduct = (id: string) => {
+    return ApiGetRequest(`/products/${id}`);
+};
+
 export const getJeweleryProducts = () => {
     return ApiGetRequest("/products/category/jewelery");
 };
