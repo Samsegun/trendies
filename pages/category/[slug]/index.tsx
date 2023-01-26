@@ -15,14 +15,13 @@ const Category = ({ selectedCategory }: Props) => {
     // const router = useRouter();
 
     const adjustText = (text: string) => {
-        let category: string;
+        let category = text;
 
         if (text === "men's clothing") {
             category = "mens";
         } else if (text === "women's clothing") {
             category = "womens";
         }
-        category = text;
 
         return category;
     };
