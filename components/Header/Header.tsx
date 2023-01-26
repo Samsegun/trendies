@@ -6,13 +6,20 @@ import wishListIcon from "../../public/assets/wishListIcon.svg";
 import cartIcon from "../../public/assets/cartIcon.svg";
 import ItemCount from "../UI/itemsCount";
 import Container from "../UI/container";
+import NavLink from "../UI/Navlink";
 
-const Header = () => {
+type Props = {
+    handleModal: (text: string) => void;
+};
+
+const Header = ({ handleModal }: Props) => {
     return (
         <header className='bg-black text-[#fff]  p-4'>
             <Container>
                 <div className='flex items-center justify-between w-11/12 mx-auto xl:w-auto'>
-                    <div className='cursor-pointer xl:hidden'>
+                    <div
+                        className='cursor-pointer md:hidden'
+                        onClick={handleModal.bind(null, "open")}>
                         <Image src={navIcon} alt='menu button' />
                     </div>
 
@@ -20,25 +27,37 @@ const Header = () => {
                         <Link href='/'>Trendies</Link>
                     </h1>
 
-                    <ul className='items-center hidden gap-8 uppercase xl:flex '>
-                        <li className='hover:text-[#e33f3f] cursor-pointer transition-all duration-300'>
-                            <Link href='/'>home</Link>
-                        </li>
-                        <li className='hover:text-[#e33f3f] cursor-pointer transition-all duration-300'>
-                            <Link href='/category/mens'>mens</Link>
-                        </li>
-                        <li className='hover:text-[#e33f3f] cursor-pointer transition-all duration-300'>
-                            <Link href='/category/womens'>womens</Link>
-                        </li>
-                        <li className='hover:text-[#e33f3f] cursor-pointer transition-all duration-300'>
-                            <Link href='/category/jewelery'>jewelry</Link>
-                        </li>
-                        <li className='hover:text-[#e33f3f] cursor-pointer transition-all duration-300'>
-                            <Link href='/category/electronics'>
-                                electronics
-                            </Link>
-                        </li>
-                    </ul>
+                    <nav className='hidden md:block'>
+                        <ul className='flex items-center gap-8 uppercase '>
+                            <li className='hover:text-[#e33f3f] cursor-pointer transition-all duration-300'>
+                                <NavLink path='/' children='home' />
+                            </li>
+                            <li className='hover:text-[#e33f3f] cursor-pointer transition-all duration-300'>
+                                <NavLink
+                                    path='/category/mens'
+                                    children='mens'
+                                />
+                            </li>
+                            <li className='hover:text-[#e33f3f] cursor-pointer transition-all duration-300'>
+                                <NavLink
+                                    path='/category/womens'
+                                    children='womens'
+                                />
+                            </li>
+                            <li className='hover:text-[#e33f3f] cursor-pointer transition-all duration-300'>
+                                <NavLink
+                                    path='/category/jewelery'
+                                    children='jewelry'
+                                />
+                            </li>
+                            <li className='hover:text-[#e33f3f] cursor-pointer transition-all duration-300'>
+                                <NavLink
+                                    path='/category/electronics'
+                                    children='electronics'
+                                />
+                            </li>
+                        </ul>
+                    </nav>
 
                     <div className='flex justify-between'>
                         <div

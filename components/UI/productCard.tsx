@@ -71,9 +71,13 @@ const ProductCard: FC<{ products: ProductArray }> = ({ products }) => {
                             <Image
                                 src={product.image}
                                 alt=''
-                                className='block w-full h-full rounded-tl-lg rounded-tr-lg md:max-w-max'
-                                width={400}
-                                height={300}
+                                className='rounded-tl-lg rounded-tr-lg '
+                                fill={true}
+                                sizes='(max-width: 768px) 372px,
+                                        (max-width: 1280px) 372px,
+                                             100%'
+                                // width={1000}
+                                // height={1000}
                             />
 
                             <button

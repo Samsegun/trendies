@@ -41,11 +41,6 @@ const Home: NextPage<{ products: ProductArray }> = ({ products }) => {
             <Container>
                 <div className='w-11/12 py-4 mx-auto md:grid md:grid-cols-2 md:gap-4 xl:my-8'>
                     <BannerSection />
-
-                    {/* <Link href='/category/mens'>men's clothing</Link>
-                <Link href='/category/womens'>women's clothing</Link>
-                <Link href='/category/jewelery'>jewelery</Link>
-                <Link href='/category/electronics'>electronics</Link> */}
                 </div>
             </Container>
 

@@ -1,7 +1,8 @@
 import { GetStaticPropsContext } from "next";
-import { getAllProducts, getSingleProduct } from "@/utils/ApiRequets";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
+import { getAllProducts, getSingleProduct } from "@/utils/ApiRequets";
 import Container from "@/components/UI/container";
 import About from "@/components/About/about";
 
@@ -24,15 +25,14 @@ const ProductPage = ({ product }: Props) => {
     // const { params } = useContext(ParamsContext);
     // console.log(params);
 
-    // const router = useRouter();
-
-    console.log(product);
+    const router = useRouter();
 
     return (
         <Container>
             <div className='px-4'>
                 <button
-                    className='px-4 my-16 text-lg font-medium transition-all duration-200 cursor-pointer hover:scale-105 md:px-6 opacity-70'>
+                    className='px-4 my-16 text-lg font-medium transition-all duration-200 cursor-pointer hover:scale-105 md:px-6 opacity-70'
+                    onClick={() => router.back()}>
                     Go Back
                 </button>
 

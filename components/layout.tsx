@@ -5,7 +5,7 @@ import "nprogress/nprogress.css";
 import { ParamsProvider } from "@/context/productParams";
 import Footer from "./Footer/footer";
 import Header from "./Header/Header";
-import Loading from "./loader";
+import NavLink from "./UI/Navlink";
 
 NProgress.configure({
     minimum: 0.3,
@@ -15,38 +15,95 @@ NProgress.configure({
 });
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    // const [isLoading, setIsLoading] = useState(false);
+    const [modal, setModal] = useState(false);
     const router = useRouter();
 
+    const handleModal = (action: string) => {
+        if (action === "close") {
+            setModal(false);
+        } else {
+            setModal(true);
+        }
+    };
+
     useEffect(() => {
-        // const start = () => {
-        //     // console.log("start");
-        //     setIsLoading(true);
-        // };
-        // const end = () => {
-        //     // console.log("finished");
-        //     setIsLoading(false);
-        // };
         router.events.on("routeChangeStart", () => NProgress.start());
-        router.events.on("routeChangeComplete", () => NProgress.done());
+        router.events.on("routeChangeComplete", () => {
+            NProgress.done();
+            handleModal("close");
+        });
         router.events.on("routeChangeError", () => NProgress.done());
         return () => {
             router.events.off("routeChangeStart", () => NProgress.start());
-            router.events.off("routeChangeComplete", () => NProgress.done());
+            router.events.off("routeChangeComplete", () => {
+                NProgress.done();
+                handleModal("close");
+            });
             router.events.off("routeChangeError", () => NProgress.done());
         };
     }, []);
 
     return (
         <ParamsProvider>
-            <div>
-                <Header />
+            <div className='relative'>
+                <Header handleModal={handleModal} />
+
+                <div className='md:hidden'>
+                    {/* overlay */}
+                    {modal && (
+                        <div
+                            className='fixed top-0 bottom-0 left-0 right-0 z-30 bg-[rgba(0,0,0,0.4)] '
+                            onClick={handleModal.bind(null, "close")}></div>
+                    )}
+
+                    {/* mobile nav */}
+                    <section
+                        className={`fixed top-0 left-0 z-40 w-4/5 h-full px-4 py-8
+                     text-white bg-black transition-all duration-300 ${
+                         !modal && "-translate-x-full"
+                     }`}>
+                        <div className='relative'>
+                            <button
+                                className='absolute -top-[4%] right-[5%] text-2xl text-white hover:scale-105'
+                                onClick={handleModal.bind(null, "close")}>
+                                X
+                            </button>
+                            <nav className='flex justify-center h-screen mt-8'>
+                                <ul className='flex flex-col items-center gap-8 uppercase '>
+                                    <li className='hover:text-[#e33f3f] cursor-pointer transition-all duration-300'>
+                                        <NavLink path='/' children='home' />
+                                    </li>
+                                    <li className='hover:text-[#e33f3f] cursor-pointer transition-all duration-300'>
+                                        <NavLink
+                                            path='/category/mens'
+                                            children='mens'
+                                        />
+                                    </li>
+                                    <li className='hover:text-[#e33f3f] cursor-pointer transition-all duration-300'>
+                                        <NavLink
+                                            path='/category/womens'
+                                            children='womens'
+                                        />
+                                    </li>
+                                    <li className='hover:text-[#e33f3f] cursor-pointer transition-all duration-300'>
+                                        <NavLink
+                                            path='/category/jewelery'
+                                            children='jewelry'
+                                        />
+                                    </li>
+                                    <li className='hover:text-[#e33f3f] cursor-pointer transition-all duration-300'>
+                                        <NavLink
+                                            path='/category/electronics'
+                                            children='electronics'
+                                        />
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </section>
+                </div>
+
                 <main className='min-h-screen'>{children}</main>
-                {/* {isLoading ? (
-                    <Loading />
-                ) : (
-                    <main className='min-h-screen'>{children}</main>
-                )} */}
                 <Footer />
             </div>
         </ParamsProvider>
