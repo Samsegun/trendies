@@ -8,7 +8,13 @@ type Props = {
 
 export default function NavLink({ path, children }: Props) {
     const router = useRouter();
-    const isActive = router.asPath === `${path}` ? "text-[#e33f3f]" : "";
+    const productPagePathArr = router.asPath.split("/");
+    const productPagePath = productPagePathArr[productPagePathArr.length - 1];
+    const isActive =
+        router.asPath === `${path}` ||
+        router.asPath === `${path}/${productPagePath}`
+            ? "text-[#e33f3f]"
+            : "";
 
     return (
         <Link className={isActive} href={`${path}`}>

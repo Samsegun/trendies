@@ -5,6 +5,7 @@ import Image from "next/image";
 import { getAllProducts, getSingleProduct } from "@/utils/ApiRequets";
 import Container from "@/components/UI/container";
 import About from "@/components/About/about";
+import { useCartStore } from "@/store/cart";
 
 type Props = {
     product: {
@@ -24,8 +25,10 @@ type Props = {
 const ProductPage = ({ product }: Props) => {
     // const { params } = useContext(ParamsContext);
     // console.log(params);
-
+    const cart = useCartStore(state => state.cart);
     const router = useRouter();
+
+    console.log(cart);
 
     return (
         <Container>

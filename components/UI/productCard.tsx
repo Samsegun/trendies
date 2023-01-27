@@ -67,17 +67,19 @@ const ProductCard: FC<{ products: ProductArray }> = ({ products }) => {
             {products.map((product, idx) => {
                 return (
                     <CardWrapper key={idx}>
-                        <div className={`relative`}>
+                        <div
+                            className='relative h-auto w-[inherit] xs:w-[300px]
+                             md:w-[375px] '>
                             <Image
                                 src={product.image}
                                 alt=''
                                 className='rounded-tl-lg rounded-tr-lg '
                                 fill={true}
-                                sizes='(max-width: 768px) 372px,
-                                        (max-width: 1280px) 372px,
+                                sizes='(max-width: 768px) 100%,
+                                        (max-width: 1280px) 100%,
                                              100%'
-                                // width={1000}
-                                // height={1000}
+                                // width={500}
+                                // height={500}
                             />
 
                             <button

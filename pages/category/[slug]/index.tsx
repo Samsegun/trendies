@@ -11,9 +11,6 @@ type Props = {
 };
 
 const Category = ({ selectedCategory }: Props) => {
-    // const [loading, setLoading] = useState(false);
-    // const router = useRouter();
-
     const adjustText = (text: string) => {
         let category = text;
 
