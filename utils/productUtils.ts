@@ -35,3 +35,15 @@ export const getTwoRandomProducts = (list: ProductArray, category: string) => {
 
     return noDuplicateProducts;
 };
+
+// export const adjustCartItemQty = (qty: number, operation: string) => {
+//     let itemQty = qty;
+
+//     if (operation === "subtract" && itemQty >= 2) {
+//         return (itemQty -= 1);
+//     }
+
+//     if (operation === "add") {
+//         return (itemQty += 1);
+//     }
+// };

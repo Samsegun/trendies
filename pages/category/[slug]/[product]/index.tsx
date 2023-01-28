@@ -6,6 +6,8 @@ import { getAllProducts, getSingleProduct } from "@/utils/ApiRequets";
 import Container from "@/components/UI/container";
 import About from "@/components/About/about";
 import { useCartStore } from "@/store/cart";
+import { useState } from "react";
+// import { adjustCartItemQty } from "@/utils/productUtils";
 
 type Props = {
     product: {
@@ -23,12 +25,29 @@ type Props = {
 };
 
 const ProductPage = ({ product }: Props) => {
-    // const { params } = useContext(ParamsContext);
-    // console.log(params);
-    const cart = useCartStore(state => state.cart);
+    const [cartItemQty, setCartItemQty] = useState<number>(1);
+    const { addToCart, cart, increaseCartQty, decreaseCartQty } = useCartStore(
+        state => state
+    );
+    const itemInCart = cart.find(item => item.id === product.id);
+    // const [cartItemQty, setCartItemQty] = useState(itemInCart?.qty || 1);
+
     const router = useRouter();
 
     console.log(cart);
+    console.log(cartItemQty);
+
+    const adjustCartItemQty = (qty: number, operation: string) => {
+        let itemQty = qty;
+
+        if (operation === "subtract" && itemQty >= 2) {
+            setCartItemQty((itemQty -= 1));
+        }
+
+        if (operation === "add") {
+            setCartItemQty((itemQty += 1));
+        }
+    };
 
     return (
         <Container>
@@ -69,15 +88,35 @@ const ProductPage = ({ product }: Props) => {
                             <div
                                 className='w-[120px] h-12 py-7 px-4 flex items-center
                              justify-around font-medium bg-slate-300'>
-                                <button>-</button>
-                                <span>1</span>
-                                <button>+</button>
+                                <button
+                                    onClick={adjustCartItemQty.bind(
+                                        null,
+                                        cartItemQty,
+                                        "subtract"
+                                    )}>
+                                    -
+                                </button>
+                                <span>{cartItemQty}</span>
+                                <button
+                                    onClick={adjustCartItemQty.bind(
+                                        null,
+                                        cartItemQty,
+                                        "add"
+                                    )}>
+                                    +
+                                </button>
                             </div>
 
                             <button
                                 type='button'
                                 className='bg-[#e33f3f] hover:bg-[#f44b4b] font-bold transition-all
-                                 duration-300 text-white uppercase py-4 px-8'>
+                                 duration-300 text-white uppercase py-4 px-8'
+                                onClick={addToCart.bind(
+                                    null,
+                                    product.id,
+                                    product.title,
+                                    cartItemQty
+                                )}>
                                 add to cart
                             </button>
                         </div>
