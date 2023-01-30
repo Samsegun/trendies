@@ -67,11 +67,12 @@ const Category = ({ selectedCategory }: Props) => {
 
                                     <button
                                         type='button'
-                                        className='bg-[#e33f3f] hover:bg-[#f44b4b] transition-all duration-300 text-white uppercase py-4 px-8'>
+                                        className='bg-[#e33f3f] hover:bg-[#f44b4b] transition-all duration-300 text-white uppercase '>
                                         <Link
                                             href={`/category/${adjustText(
                                                 product.category
-                                            )}/${product.id}`}>
+                                            )}/${product.id}`}
+                                            className='block px-8 py-4'>
                                             see product
                                         </Link>
                                     </button>
