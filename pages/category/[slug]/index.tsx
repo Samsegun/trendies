@@ -23,8 +23,6 @@ const Category = ({ selectedCategory }: Props) => {
         return category;
     };
 
-    console.log(selectedCategory);
-
     return (
         <div>
             <div className='p-8 text-xl font-semibold tracking-wide text-center text-white uppercase bg-black'>
@@ -116,8 +114,6 @@ export async function getStaticProps(
     }
 
     const categoryData = (await getSingleCategory(slug)).data;
-
-    // console.log(params);
 
     return {
         props: {

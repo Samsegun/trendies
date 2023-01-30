@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "../../styles/Header.module.css";
@@ -7,12 +8,24 @@ import cartIcon from "../../public/assets/cartIcon.svg";
 import ItemCount from "../UI/itemsCount";
 import Container from "../UI/container";
 import NavLink from "../UI/Navlink";
+import { useCartStore } from "@/store/cart";
 
 type Props = {
     handleModal: (text: string) => void;
 };
 
 const Header = ({ handleModal }: Props) => {
+    const cart = useCartStore(state => state.cart);
+    const [cartQty, setCartQty] = useState(0);
+
+    useEffect(() => {
+        let acc = 0;
+        cart.forEach(item => {
+            acc += item.qty;
+        });
+        setCartQty(acc);
+    }, [cart]);
+
     return (
         <header className='bg-black text-[#fff]  p-4'>
             <Container>
@@ -66,12 +79,18 @@ const Header = ({ handleModal }: Props) => {
                                 " relative mr-4 cursor-pointer"
                             }>
                             <Image src={wishListIcon} alt='wish list' />
-                            <ItemCount position='bottom-[10px] -right-[16px]' />
+                            <ItemCount
+                                position='bottom-[10px] -right-[16px]'
+                                qty={10}
+                            />
                         </div>
 
                         <div className='relative cursor-pointer'>
                             <Image src={cartIcon} alt=' cart' />
-                            <ItemCount position='bottom-4 -right-[14px]' />
+                            <ItemCount
+                                position='bottom-4 -right-[14px]'
+                                qty={cartQty}
+                            />
                         </div>
                     </div>
                 </div>
