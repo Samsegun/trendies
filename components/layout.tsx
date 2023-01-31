@@ -15,14 +15,24 @@ NProgress.configure({
 });
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [modal, setModal] = useState(false);
+    const [modal, setModal] = useState({
+        mobileNav: false,
+        cartModal: false,
+        overLay: false,
+    });
     const router = useRouter();
 
     const handleModal = (action: string) => {
         if (action === "close") {
-            setModal(false);
-        } else {
-            setModal(true);
+            setModal({ mobileNav: false, cartModal: false, overLay: false });
+        }
+
+        if (action === "mobileNav") {
+            setModal({ mobileNav: true, cartModal: false, overLay: true });
+        }
+
+        if (action === "cart") {
+            setModal({ mobileNav: false, cartModal: true, overLay: true });
         }
     };
 
@@ -46,11 +56,11 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     return (
         <ParamsProvider>
             <div className='relative'>
-                <Header handleModal={handleModal} />
+                <Header handleModal={handleModal} cartModal={modal.cartModal} />
 
                 <div className='md:hidden'>
                     {/* overlay */}
-                    {modal && (
+                    {modal.overLay && (
                         <div
                             className='fixed top-0 bottom-0 left-0 right-0 z-30 bg-[rgba(0,0,0,0.4)] '
                             onClick={handleModal.bind(null, "close")}></div>
@@ -60,7 +70,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                     <section
                         className={`fixed top-0 left-0 z-40 w-4/5 h-full px-4 py-8
                      text-white bg-black transition-all duration-300 ${
-                         !modal && "-translate-x-full"
+                         !modal.mobileNav && "-translate-x-full"
                      }`}>
                         <div className='relative'>
                             <button
