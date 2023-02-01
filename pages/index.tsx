@@ -12,7 +12,7 @@ import Highlights from "@/components/Highlights/highlights";
 import FeaturedProducts from "@/components/FeaturedProducts/FeaturedProducts";
 import About from "@/components/About/about";
 
-const inter = Inter({ subsets: ["latin"] });
+// const inter = Inter({ subsets: ["latin"] });
 
 const Home: NextPage<{ products: ProductArray }> = ({ products }) => {
     const { setNewParams } = useContext(ParamsContext);

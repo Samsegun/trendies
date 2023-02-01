@@ -1,22 +1,38 @@
+import { ProductArray } from "@/types/productType";
 import { create } from "zustand";
 
 interface CartState {
-    cart: { id: number; name: string; qty: number }[];
-    addToCart: (id: number, name: string, qty: number) => void;
+    cart: {
+        id: number;
+        name: string;
+        qty: number;
+        price: number;
+        image: string;
+    }[];
+    totals: { cartQty: number; cartTotals: number };
+    addToCart: (
+        id: number,
+        name: string,
+        qty: number,
+        price: number,
+        image: string
+    ) => void;
     increaseCartQty: (id: number) => void;
     decreaseCartQty: (id: number) => void;
     removeCartItem: (id: number) => void;
+    addTotals: () => void;
 }
 
 export const useCartStore = create<CartState>()(set => ({
     cart: [],
-    addToCart: (id, name, qty) =>
+    totals: { cartQty: 0, cartTotals: 0 },
+    addToCart: (id, name, qty, price, image) =>
         set(state => {
             if (state.cart.find(item => item.id === id)) {
                 return { cart: state.cart };
             }
 
-            return { cart: [...state.cart, { id, name, qty }] };
+            return { cart: [...state.cart, { id, name, qty, price, image }] };
         }),
     increaseCartQty: id =>
         set(state => {
@@ -50,5 +66,15 @@ export const useCartStore = create<CartState>()(set => ({
             const filteredCart = state.cart.filter(item => item.id !== id);
 
             return { cart: [...filteredCart] };
+        }),
+    addTotals: () =>
+        set(state => {
+            let quantities = 0;
+            let total = 0;
+            state.cart.forEach(item => {
+                quantities += item.qty;
+                total += item.qty * item.price;
+            });
+            return { totals: { cartQty: quantities, cartTotals: total } };
         }),
 }));

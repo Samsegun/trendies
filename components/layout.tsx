@@ -32,7 +32,11 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         }
 
         if (action === "cart") {
-            setModal({ mobileNav: false, cartModal: true, overLay: true });
+            setModal({
+                mobileNav: false,
+                cartModal: !modal.cartModal,
+                overLay: !modal.overLay,
+            });
         }
     };
 
@@ -58,15 +62,15 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             <div className='relative'>
                 <Header handleModal={handleModal} cartModal={modal.cartModal} />
 
-                <div className='md:hidden'>
-                    {/* overlay */}
-                    {modal.overLay && (
-                        <div
-                            className='fixed top-0 bottom-0 left-0 right-0 z-30 bg-[rgba(0,0,0,0.4)] '
-                            onClick={handleModal.bind(null, "close")}></div>
-                    )}
+                {/* overlay */}
+                {modal.overLay && (
+                    <div
+                        className='fixed top-0 bottom-0 left-0 right-0 z-30 bg-[rgba(0,0,0,0.4)] '
+                        onClick={handleModal.bind(null, "close")}></div>
+                )}
 
-                    {/* mobile nav */}
+                {/* mobile nav */}
+                <div className='md:hidden'>
                     <section
                         className={`fixed top-0 left-0 z-40 w-4/5 h-full px-4 py-8
                      text-white bg-black transition-all duration-300 ${

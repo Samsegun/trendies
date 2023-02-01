@@ -137,12 +137,15 @@ const ProductPage = ({ product }: Props) => {
                                     type='button'
                                     className='bg-[#e33f3f] hover:bg-[#f44b4b] font-bold transition-all
                                  duration-300 text-white uppercase py-4 px-8'
-                                    onClick={addToCart.bind(
-                                        null,
-                                        product.id,
-                                        product.title,
-                                        cartItemQty
-                                    )}>
+                                    onClick={() =>
+                                        addToCart(
+                                            product.id,
+                                            product.title,
+                                            cartItemQty,
+                                            product.price,
+                                            product.image
+                                        )
+                                    }>
                                     add to cart
                                 </button>
                             )}
