@@ -16,7 +16,9 @@ type Props = {
 };
 
 const Header = ({ handleModal, cartModal }: Props) => {
-    const { cart, totals, addTotals } = useCartStore(state => state);
+    const { cart, totals, addTotals, removeCartItem, resetCart } = useCartStore(
+        state => state
+    );
 
     useEffect(() => {
         addTotals();
@@ -104,6 +106,7 @@ const Header = ({ handleModal, cartModal }: Props) => {
                                     </h2>
                                     <button
                                         type='button'
+                                        onClick={resetCart}
                                         className='opacity-70'>
                                         Remove all
                                     </button>
@@ -134,7 +137,12 @@ const Header = ({ handleModal, cartModal }: Props) => {
                                                     </div>
                                                 </div>
 
-                                                <button className='text-xs opacity-70'>
+                                                <button
+                                                    onClick={removeCartItem.bind(
+                                                        null,
+                                                        item.id
+                                                    )}
+                                                    className='text-xs font-semibold opacity-70'>
                                                     X
                                                 </button>
                                             </div>

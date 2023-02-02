@@ -20,6 +20,7 @@ interface CartState {
     increaseCartQty: (id: number) => void;
     decreaseCartQty: (id: number) => void;
     removeCartItem: (id: number) => void;
+    resetCart: () => void;
     addTotals: () => void;
 }
 
@@ -67,6 +68,7 @@ export const useCartStore = create<CartState>()(set => ({
 
             return { cart: [...filteredCart] };
         }),
+    resetCart: () => set(state => ({ cart: [] })),
     addTotals: () =>
         set(state => {
             let quantities = 0;

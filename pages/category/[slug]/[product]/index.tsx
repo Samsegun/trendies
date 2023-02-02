@@ -109,7 +109,7 @@ const ProductPage = ({ product }: Props) => {
                             {product.description}
                         </p>
 
-                        <div className='flex items-center gap-4'>
+                        <div className='flex items-center justify-center gap-4'>
                             <div
                                 className='w-[120px] h-12 py-7 px-4 flex items-center
                              justify-around font-medium bg-slate-300'>
@@ -135,8 +135,8 @@ const ProductPage = ({ product }: Props) => {
                             {!itemInCart && (
                                 <button
                                     type='button'
-                                    className='bg-[#e33f3f] hover:bg-[#f44b4b] font-bold transition-all
-                                 duration-300 text-white uppercase py-4 px-8'
+                                    className='bg-[#e33f3f] hover:bg-[#f44b4b] font-bold text-sm transition-all
+                                 duration-300 text-white uppercase py-2 px-6 xs:py-4 sm:px-8'
                                     onClick={() =>
                                         addToCart(
                                             product.id,
@@ -154,8 +154,9 @@ const ProductPage = ({ product }: Props) => {
                             {itemInCart && (
                                 <button
                                     type='button'
-                                    className='bg-[#e33f3f] hover:bg-[#f44b4b] font-bold transition-all
-                                 duration-300 text-white uppercase py-4 px-8'
+                                    className='bg-[#e33f3f] hover:bg-[#f44b4b] font-bold text-sm
+                                     transition-all
+                                 duration-300 text-white uppercase py-2 px-6 xs:py-4 sm:px-8'
                                     onClick={removeCartItem.bind(
                                         null,
                                         product.id
