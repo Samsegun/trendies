@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { GetStaticPropsContext } from "next";
+import Error from "next/error";
+import Image from "next/image";
 import Link from "next/link";
 import Container from "@/components/UI/container";
 import { ProductArray } from "@/types/productType";
 import { getAllCategories, getSingleCategory } from "@/utils/ApiRequets";
-import Image from "next/image";
 
 type Props = {
     selectedCategory: ProductArray;
@@ -22,6 +23,10 @@ const Category = ({ selectedCategory }: Props) => {
 
         return category;
     };
+
+    if (selectedCategory.length === 0) {
+        return <Error statusCode={503} />;
+    }
 
     return (
         <div>
@@ -113,7 +118,13 @@ export async function getStaticProps(
         slug = "women's%20clothing";
     }
 
-    const categoryData = (await getSingleCategory(slug)).data;
+    let categoryData: ProductArray;
+    try {
+        categoryData = (await getSingleCategory(slug)).data;
+    } catch (error) {
+        categoryData = [];
+        return { props: { selectedCategory: categoryData } };
+    }
 
     return {
         props: {

@@ -1,16 +1,17 @@
+import { useEffect, useState } from "react";
 import {
     GetServerSideProps,
     GetServerSidePropsContext,
     GetStaticPropsContext,
 } from "next";
 import { useRouter } from "next/router";
+import Error from "next/error";
 import Link from "next/link";
 import Image from "next/image";
 import { getAllProducts, getSingleProduct } from "@/utils/ApiRequets";
 import Container from "@/components/UI/container";
 import About from "@/components/About/about";
 import { useCartStore } from "@/store/cart";
-import { useEffect, useState } from "react";
 
 type Props = {
     product: {
@@ -74,6 +75,10 @@ const ProductPage = ({ product }: Props) => {
         }
     };
 
+    if (!product["id"]) {
+        return <Error statusCode={503} />;
+    }
+
     return (
         <Container>
             <div className='px-4'>
@@ -109,7 +114,7 @@ const ProductPage = ({ product }: Props) => {
                             {product.description}
                         </p>
 
-                        <div className='flex items-center justify-center gap-4'>
+                        <div className='flex items-center justify-center gap-4 md:justify-start'>
                             <div
                                 className='w-[120px] h-12 py-7 px-4 flex items-center
                              justify-around font-medium bg-slate-300'>
@@ -182,7 +187,12 @@ export async function getServerSideProps(
     const { product } = context.query;
     let productData;
     if (typeof product === "string") {
-        productData = (await getSingleProduct(product)).data;
+        try {
+            productData = (await getSingleProduct(product)).data;
+        } catch (error) {
+            productData = {};
+            return { props: { product: productData } };
+        }
     }
 
     return {

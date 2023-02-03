@@ -15,10 +15,7 @@ import About from "@/components/About/about";
 
 // const inter = Inter({ subsets: ["latin"] });
 
-const Home: NextPage<{ errorCode: number | false; products: ProductArray }> = ({
-    errorCode,
-    products,
-}) => {
+const Home: NextPage<{ products: ProductArray }> = ({ products }) => {
     const { setNewParams } = useContext(ParamsContext);
 
     const productIds = products.map(product => ({ params: product.id }));
@@ -27,8 +24,8 @@ const Home: NextPage<{ errorCode: number | false; products: ProductArray }> = ({
         setNewParams(productIds);
     }, []);
 
-    if (errorCode) {
-        return <Error statusCode={errorCode} />;
+    if (products.length === 0) {
+        return <Error statusCode={503} />;
     }
 
     return (
@@ -64,30 +61,22 @@ const Home: NextPage<{ errorCode: number | false; products: ProductArray }> = ({
 export const getStaticProps: GetStaticProps<{
     products: ProductArray;
 }> = async () => {
-    const result = await getAllProducts();
-    console.log(result.status);
+    // const result = await getAllProducts();
+    // console.log(result.status);
 
-    const errorCode = result.status > 299 ? result.status : false;
-    const products = result.data;
+    // const errorCode = result.status > 299 ? result.status : false;
+    // const products = result.data;
 
-    return { props: { errorCode, products } };
-
-    // try {
-    //     const { data } = await getAllProducts();
-    //     if (!data) {
-    //         console.log("he");
-    //         return { notFound: true };
-    //     }
-    //     const products = data;
-    //     return { props: { products } };
-    //     // else {
-    //     //     throw new Error("An error occured");
-
-    //     // }
-    // } catch (error) {
-    //     console.log("he2");
-    //     return { notFound: true };
-    // }
+    // return { props: { errorCode, products } };
+    let products: ProductArray;
+    try {
+        const { data } = await getAllProducts();
+        products = data;
+    } catch (error) {
+        products = [];
+        return { props: { products } };
+    }
+    return { props: { products } };
 };
 
 export default Home;
