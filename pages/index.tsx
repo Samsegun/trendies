@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import Head from "next/head";
 import Error from "next/error";
 import { GetStaticProps, NextPage } from "next";
-import { Inter } from "@next/font/google";
 import { getAllProducts } from "@/utils/ApiRequets";
 import { ProductArray } from "@/types/productType";
 import Link from "next/link";
@@ -12,8 +11,7 @@ import Container from "@/components/UI/container";
 import Highlights from "@/components/Highlights/highlights";
 import FeaturedProducts from "@/components/FeaturedProducts/FeaturedProducts";
 import About from "@/components/About/about";
-
-// const inter = Inter({ subsets: ["latin"] });
+// import firebase from "firebase"
 
 const Home: NextPage<{ products: ProductArray }> = ({ products }) => {
     const { setNewParams } = useContext(ParamsContext);
@@ -68,6 +66,7 @@ export const getStaticProps: GetStaticProps<{
     // const products = result.data;
 
     // return { props: { errorCode, products } };
+
     let products: ProductArray;
     try {
         const { data } = await getAllProducts();

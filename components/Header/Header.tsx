@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useCartStore } from "@/store/cart";
 import styles from "../../styles/Header.module.css";
 import navIcon from "../../public/assets/navIcon.svg";
-import wishListIcon from "../../public/assets/wishListIcon.svg";
+// import wishListIcon from "../../public/assets/wishListIcon.svg";
+import accountIcon from "../../public/assets/account_circle.svg";
 import cartIcon from "../../public/assets/cartIcon.svg";
 import ItemCount from "../UI/itemsCount";
 import Container from "../UI/container";
 import NavLink from "../UI/Navlink";
-import { useCartStore } from "@/store/cart";
 
 type Props = {
     handleModal: (text: string) => void;
@@ -77,12 +78,23 @@ const Header = ({ handleModal, cartModal }: Props) => {
                                     styles.wishlist +
                                     " relative mr-4 cursor-pointer"
                                 }>
+                                <Image src={accountIcon} alt='wish list' />
+                                {/* <ItemCount
+                                    position='bottom-[10px] -right-[16px]'
+                                    qty={10}
+                                /> */}
+                            </button>
+                            {/* <button
+                                className={
+                                    styles.wishlist +
+                                    " relative mr-4 cursor-pointer"
+                                }>
                                 <Image src={wishListIcon} alt='wish list' />
                                 <ItemCount
                                     position='bottom-[10px] -right-[16px]'
                                     qty={10}
                                 />
-                            </button>
+                            </button> */}
 
                             <button
                                 className='relative cursor-pointer'
