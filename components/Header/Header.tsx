@@ -79,10 +79,6 @@ const Header = ({ handleModal, cartModal }: Props) => {
                                     " relative mr-4 cursor-pointer"
                                 }>
                                 <Image src={accountIcon} alt='wish list' />
-                                {/* <ItemCount
-                                    position='bottom-[10px] -right-[16px]'
-                                    qty={10}
-                                /> */}
                             </button>
                             {/* <button
                                 className={
