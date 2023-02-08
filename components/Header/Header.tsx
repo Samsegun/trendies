@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useUser } from "@auth0/nextjs-auth0/client";
 import { useCartStore } from "@/store/cart";
 import styles from "../../styles/Header.module.css";
 import navIcon from "../../public/assets/navIcon.svg";
@@ -10,16 +12,23 @@ import cartIcon from "../../public/assets/cartIcon.svg";
 import ItemCount from "../UI/itemsCount";
 import Container from "../UI/container";
 import NavLink from "../UI/Navlink";
+import CartModal from "../CartModal";
 
 type Props = {
     handleModal: (text: string) => void;
     cartModal: boolean;
+    signInModal: boolean;
 };
 
-const Header = ({ handleModal, cartModal }: Props) => {
-    const { cart, totals, addTotals, removeCartItem, resetCart } = useCartStore(
-        state => state
-    );
+const Header = ({ handleModal, cartModal, signInModal }: Props) => {
+    const { cart, totals, addTotals } = useCartStore(state => state);
+    const { push } = useRouter();
+    const { isLoading, user, error } = useUser();
+
+    console.log(user);
+
+    const handleLogin = () => push("/api/auth/login");
+    const handleLogOut = () => push("/api/auth/logout");
 
     useEffect(() => {
         addTotals();
@@ -77,8 +86,15 @@ const Header = ({ handleModal, cartModal }: Props) => {
                                 className={
                                     styles.wishlist +
                                     " relative mr-4 cursor-pointer"
-                                }>
-                                <Image src={accountIcon} alt='wish list' />
+                                }
+                                onClick={handleModal.bind(null, "signIn")}>
+                                <Image
+                                    src={user ? user.picture : accountIcon}
+                                    alt='wish list'
+                                    className='rounded-xl'
+                                    width={1000}
+                                    height={1000}
+                                />
                             </button>
                             {/* <button
                                 className={
@@ -104,77 +120,42 @@ const Header = ({ handleModal, cartModal }: Props) => {
                         </div>
 
                         {/* cart modal */}
-                        {cartModal && (
+                        {cartModal && <CartModal email={user?.email} />}
+
+                        {/* signIn modal */}
+                        {signInModal && (
                             <section
-                                className='absolute right-0 z-40 w-[90%] 
-                            max-w-xs bg-white text-black top-12 h-auto p-2 pb-6 xs:p-4 shadow-xl'>
-                                <div className='flex justify-between'>
-                                    <h2 className='font-semibold uppercase'>
-                                        cart
-                                    </h2>
-                                    <button
-                                        type='button'
-                                        onClick={resetCart}
-                                        className='opacity-70'>
-                                        Remove all
-                                    </button>
-                                </div>
+                                className='absolute right-0 z-40 w-[90%] flex flex-col gap-4
+                          max-w-xs bg-white text-black text-center top-12 h-auto p-2 pb-6 xs:p-4 shadow-xl'>
+                                {/* if user is not logged in, display these sign-up and login buttons*/}
+                                {!user && (
+                                    <>
+                                        {" "}
+                                        <button
+                                            className='bg-[#e33f3f] hover:bg-[#ef5e5e] text-white uppercase px-4 py-2 w-full rounded-2xl'
+                                            onClick={handleLogin}>
+                                            login
+                                        </button>
+                                        <button
+                                            className='bg-[#fa6d6d] hover:bg-[#fd5757] text-white uppercase px-4 py-2 w-full rounded-2xl'
+                                            onClick={handleLogin}>
+                                            sign up
+                                        </button>{" "}
+                                    </>
+                                )}
 
-                                {cart.map((item, idx) => {
-                                    return (
-                                        <div key={idx}>
-                                            <div className='flex items-center justify-between mt-8 mb-6'>
-                                                <div className='flex items-center'>
-                                                    <div className='relative w-[70px] h-[60px]'>
-                                                        <Image
-                                                            src={item.image}
-                                                            alt='product'
-                                                            fill={true}
-                                                            sizes='(max-width: 768px) 100%,
-                                                (max-width: 1280px) 100%,
-                                                     100%'
-                                                        />
-                                                    </div>
-
-                                                    <div className='basis-1/2 ml-2 text-[0.6rem] xs:text-[0.7rem] opacity-70'>
-                                                        <p>{item.name}</p>
-                                                        <span className='tracking-wider'>
-                                                            {item.qty} x $
-                                                            {item.price}
-                                                        </span>
-                                                    </div>
-                                                </div>
-
-                                                <button
-                                                    onClick={removeCartItem.bind(
-                                                        null,
-                                                        item.id
-                                                    )}
-                                                    className='text-xs font-semibold opacity-70'>
-                                                    X
-                                                </button>
-                                            </div>
-
-                                            <hr />
-                                        </div>
-                                    );
-                                })}
-
-                                <div className='flex justify-between mt-4 mb-6'>
-                                    <span className='uppercase opacity-70'>
-                                        total
-                                    </span>
-                                    <span className='font-semibold'>
-                                        ${totals.cartTotals.toLocaleString()}
-                                    </span>
-                                </div>
-
-                                <button
-                                    type='button'
-                                    className='bg-[#e33f3f] text-white uppercase
-                                     px-12 py-4 w-full text-xs font-semibold tracking-widest hover:bg-[#e33f3fe5]'>
-                                    checkout
-                                </button>
+                                {/* if user is logged in, display this content*/}
+                                {user && (
+                                    <>
+                                        <h3>{user.email}</h3>
+                                        <button
+                                            className='bg-[#fa6d6d] hover:bg-[#fd5757]
+                                             text-white uppercase px-4 py-2 w-full rounded-2xl'
+                                            onClick={handleLogOut}>
+                                            log out
+                                        </button>
+                                    </>
+                                )}
                             </section>
                         )}
                     </div>

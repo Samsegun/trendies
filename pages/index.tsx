@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import Head from "next/head";
 import Error from "next/error";
 import { GetStaticProps, NextPage } from "next";
+// import {useUser} from "@auth0/nextjs-auth0";
 import { getAllProducts } from "@/utils/ApiRequets";
 import { ProductArray } from "@/types/productType";
 import Link from "next/link";
@@ -11,12 +12,11 @@ import Container from "@/components/UI/container";
 import Highlights from "@/components/Highlights/highlights";
 import FeaturedProducts from "@/components/FeaturedProducts/FeaturedProducts";
 import About from "@/components/About/about";
-import { useRouter } from "next/router";
 // import firebase from "firebase"
 
 const Home: NextPage<{ products: ProductArray }> = ({ products }) => {
-    const { push } = useRouter();
     const { setNewParams } = useContext(ParamsContext);
+    // useUser()
 
     const productIds = products.map(product => ({ params: product.id }));
 
@@ -27,8 +27,6 @@ const Home: NextPage<{ products: ProductArray }> = ({ products }) => {
     if (products.length === 0) {
         return <Error statusCode={503} />;
     }
-
-    const handleLogin = () => push("/api/auth/login");
 
     return (
         <>
@@ -46,7 +44,6 @@ const Home: NextPage<{ products: ProductArray }> = ({ products }) => {
             </Head>
 
             <Container>
-                <button onClick={handleLogin}>login</button>
                 <div className='w-11/12 py-4 mx-auto md:grid md:grid-cols-2 md:gap-4 xl:my-8'>
                     <BannerSection />
                 </div>

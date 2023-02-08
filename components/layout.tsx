@@ -18,23 +18,44 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [modal, setModal] = useState({
         mobileNav: false,
         cartModal: false,
+        signIn: false,
         overLay: false,
     });
     const router = useRouter();
 
     const handleModal = (action: string) => {
         if (action === "close") {
-            setModal({ mobileNav: false, cartModal: false, overLay: false });
+            setModal({
+                mobileNav: false,
+                cartModal: false,
+                signIn: false,
+                overLay: false,
+            });
         }
 
         if (action === "mobileNav") {
-            setModal({ mobileNav: true, cartModal: false, overLay: true });
+            setModal({
+                mobileNav: true,
+                cartModal: false,
+                signIn: false,
+                overLay: true,
+            });
         }
 
         if (action === "cart") {
             setModal({
                 mobileNav: false,
                 cartModal: !modal.cartModal,
+                signIn: false,
+                overLay: !modal.overLay,
+            });
+        }
+
+        if (action === "signIn") {
+            setModal({
+                mobileNav: false,
+                cartModal: false,
+                signIn: true,
                 overLay: !modal.overLay,
             });
         }
@@ -60,7 +81,11 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     return (
         <ParamsProvider>
             <div className='relative'>
-                <Header handleModal={handleModal} cartModal={modal.cartModal} />
+                <Header
+                    handleModal={handleModal}
+                    cartModal={modal.cartModal}
+                    signInModal={modal.signIn}
+                />
 
                 {/* overlay */}
                 {modal.overLay && (

@@ -11,6 +11,7 @@
   "dependencies": {
     "@auth0/nextjs-auth0": "^2.2.1",
     "@next/font": "13.1.2",
+    "@types/auth0": "^2.35.9",
     "@types/node": "18.11.18",
     "@types/nprogress": "^0.2.0",
     "@types/react": "18.0.26",
