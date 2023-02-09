@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { useCartStore } from "@/store/cart";
+import Link from "next/link";
 
 // type Props = {
 //     user:
@@ -64,7 +65,7 @@ const CartModal = ({ email }: Props) => {
 
                             <button
                                 onClick={removeCartItem.bind(null, item.id)}
-                                className='text-xs font-semibold opacity-70'>
+                                className='text-xs font-semibold text-red-800 opacity-70'>
                                 X
                             </button>
                         </div>
@@ -82,12 +83,14 @@ const CartModal = ({ email }: Props) => {
             </div>
 
             <button
-                type='button'
+                // type='button'
                 disabled={email ? false : true}
                 className='bg-[#e33f3f] text-white uppercase
-             px-12 py-4 w-full text-xs font-semibold tracking-widest
+              w-full text-xs font-semibold tracking-widest
               hover:bg-[#e33f3fe5] disabled:bg-[#fdb7b7e5] disabled:cursor-not-allowed'>
-                checkout
+                <Link href='/checkout' className='block px-12 py-4'>
+                    Checkout
+                </Link>
             </button>
         </section>
     );

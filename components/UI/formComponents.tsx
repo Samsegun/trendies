@@ -21,12 +21,12 @@ export const Label = ({ name }: { name: string }) => (
     </label>
 );
 
-export const Input = ({ type, id, placeholder, name }: InputProps) => (
-    <input
-        type={type}
-        id={id}
-        placeholder={placeholder}
-        name={name}
-        className='w-full text-sm p-4 border border-[rgb(207,207,207)] rounded-lg'
-    />
-);
+// export const Input = ({ type, id, placeholder, name }: InputProps) => (
+//     <input
+//         type={type}
+//         id={id}
+//         placeholder={placeholder}
+//         name={name}
+//         className='w-full text-sm p-4 border border-[rgb(207,207,207)] rounded-lg'
+//     />
+// );
