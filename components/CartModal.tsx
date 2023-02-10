@@ -83,11 +83,9 @@ const CartModal = ({ email }: Props) => {
             </div>
 
             <button
-                // type='button'
-                disabled={email ? false : true}
                 className='bg-[#e33f3f] text-white uppercase
               w-full text-xs font-semibold tracking-widest
-              hover:bg-[#e33f3fe5] disabled:bg-[#fdb7b7e5] disabled:cursor-not-allowed'>
+              hover:bg-[#e33f3fe5]'>
                 <Link href='/checkout' className='block px-12 py-4'>
                     Checkout
                 </Link>

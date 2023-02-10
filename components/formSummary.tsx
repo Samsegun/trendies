@@ -55,7 +55,7 @@ const FormSummary = () => {
                 </p>
                 <p className='flex items-center justify-between'>
                     <span className='opacity-50'>vat (included)</span>
-                    <span className='text-lg font-semibold'>$100</span>
+                    <span className='text-lg font-semibold'>$20</span>
                 </p>
                 <p className='flex items-center justify-between'>
                     <span className='opacity-50'>grand total</span>

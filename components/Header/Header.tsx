@@ -25,7 +25,7 @@ const Header = ({ handleModal, cartModal, signInModal }: Props) => {
     const { push } = useRouter();
     const { isLoading, user, error } = useUser();
 
-    console.log(user);
+    // console.log(user);
 
     const handleLogin = () => push("/api/auth/login");
     const handleLogOut = () => push("/api/auth/logout");

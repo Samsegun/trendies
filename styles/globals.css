@@ -17,6 +17,9 @@ body {
   .input {
     @apply w-full text-sm p-4 border border-[rgb(207,207,207)] rounded-lg;
   }
+  .input-error{
+    @apply border-[rgb(236,68,68)] outline outline-1 focus-visible:outline-[rgb(236,68,68)]
+  }
 }
 
 #nprogress .bar {

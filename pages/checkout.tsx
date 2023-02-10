@@ -1,8 +1,12 @@
+import { withPageAuthRequired } from "@auth0/nextjs-auth0";
+import { useUser } from "@auth0/nextjs-auth0/client";
+import { useRouter } from "next/router";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { toast } from "react-toastify";
 import FormSummary from "@/components/formSummary";
 import Container from "@/components/UI/container";
 import { FormGroup, Label } from "@/components/UI/formComponents";
-import { useRouter } from "next/router";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useCartStore } from "@/store/cart";
 
 export type Inputs = {
     name: string;
@@ -16,13 +20,23 @@ export type Inputs = {
 
 const Checkout = () => {
     const router = useRouter();
+    const { user } = useUser();
+    const { cart } = useCartStore();
+
     const {
         register,
         handleSubmit,
         watch,
         formState: { errors },
     } = useForm<Inputs>();
-    const onSubmit: SubmitHandler<Inputs> = data => console.log(data);
+
+    const onSubmit: SubmitHandler<Inputs> = data => {
+        if (!cart.length) {
+            toast.error("Can't checkout with empty cart!");
+            return;
+        }
+        console.log({ ...data, id: user && user.sid });
+    };
 
     return (
         <Container>
@@ -52,39 +66,76 @@ const Checkout = () => {
 
                                 <div className='grid-cols-2 md:grid md:gap-4'>
                                     <FormGroup>
-                                        <Label name={"name"} />
+                                        <div className='flex justify-between'>
+                                            <Label name={"name"} />
+                                            {errors.name && (
+                                                <p
+                                                    role='alert'
+                                                    className='text-xs text-red-500'>
+                                                    Maximum of 10 chars!
+                                                </p>
+                                            )}
+                                        </div>
                                         <input
                                             type='text'
                                             id='name'
                                             placeholder='sam'
                                             {...register("name", {
+                                                required: true,
                                                 maxLength: 10,
                                             })}
                                             aria-invalid={
                                                 errors.name ? "true" : "false"
                                             }
-                                            className='input'
+                                            className={`input ${
+                                                errors.name && "input-error"
+                                            }`}
                                         />
-                                        {errors.name && (
-                                            <p role='alert'>Name is required</p>
-                                        )}
                                     </FormGroup>
 
                                     <FormGroup>
-                                        <Label name={"email address"} />
+                                        <div className='flex justify-between'>
+                                            <Label name={"email address"} />
+                                            {errors.email && (
+                                                <p
+                                                    role='alert'
+                                                    className='text-xs text-red-500'>
+                                                    Inavlid email!
+                                                </p>
+                                            )}
+                                        </div>
                                         <input
                                             type='email'
+                                            defaultValue={
+                                                user ? user.email! : ""
+                                            }
                                             id='email address'
                                             placeholder='sam@xyz.com'
                                             {...register("email", {
                                                 required: true,
+                                                pattern:
+                                                    /^[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/,
                                             })}
-                                            className='input'
+                                            aria-invalid={
+                                                errors.name ? "true" : "false"
+                                            }
+                                            className={`input ${
+                                                errors.email && "input-error"
+                                            }`}
                                         />
                                     </FormGroup>
 
                                     <FormGroup>
-                                        <Label name={"phone number"} />
+                                        <div className='flex justify-between'>
+                                            <Label name={"phone number"} />
+                                            {errors.phone && (
+                                                <p
+                                                    role='alert'
+                                                    className='text-xs text-red-500'>
+                                                    Enter phone number!
+                                                </p>
+                                            )}
+                                        </div>
                                         <input
                                             type='tel'
                                             id='phone number'
@@ -92,7 +143,9 @@ const Checkout = () => {
                                             {...register("phone", {
                                                 required: true,
                                             })}
-                                            className='input'
+                                            className={`input ${
+                                                errors.phone && "input-error"
+                                            }`}
                                         />
                                     </FormGroup>
                                 </div>
@@ -106,7 +159,16 @@ const Checkout = () => {
 
                                 <div className='grid-cols-2 md:grid md:gap-4'>
                                     <FormGroup>
-                                        <Label name={"your address"} />
+                                        <div className='flex justify-between'>
+                                            <Label name={"your address"} />
+                                            {errors.address && (
+                                                <p
+                                                    role='alert'
+                                                    className='text-xs text-red-500'>
+                                                    Enter address!
+                                                </p>
+                                            )}
+                                        </div>
                                         <input
                                             type='text'
                                             id='your address'
@@ -114,12 +176,23 @@ const Checkout = () => {
                                             {...register("address", {
                                                 required: true,
                                             })}
-                                            className='input'
+                                            className={`input ${
+                                                errors.address && "input-error"
+                                            }`}
                                         />
                                     </FormGroup>
 
                                     <FormGroup>
-                                        <Label name={"zip code"} />
+                                        <div className='flex justify-between'>
+                                            <Label name={"zip code"} />
+                                            {errors.zip && (
+                                                <p
+                                                    role='alert'
+                                                    className='text-xs text-red-500'>
+                                                    Enter valid zip code!
+                                                </p>
+                                            )}
+                                        </div>
                                         <input
                                             type='number'
                                             id='zip code'
@@ -127,34 +200,103 @@ const Checkout = () => {
                                             {...register("zip", {
                                                 required: true,
                                             })}
-                                            className='input'
+                                            className={`input ${
+                                                errors.zip && "input-error"
+                                            }`}
                                         />
                                     </FormGroup>
 
                                     <FormGroup>
-                                        <Label name={"city"} />
-                                        <input
+                                        <div className='flex justify-between'>
+                                            <Label name={"city"} />
+                                            {errors.city && (
+                                                <p
+                                                    role='alert'
+                                                    className='text-xs text-red-500'>
+                                                    Select city!
+                                                </p>
+                                            )}
+                                        </div>
+                                        <select
+                                            id='city'
+                                            {...register("city", {
+                                                required: true,
+                                            })}
+                                            className={`input ${
+                                                errors.city && "input-error"
+                                            }`}>
+                                            <option value=''>
+                                                --Select city--
+                                            </option>
+                                            <option value='Apapa'>Apapa</option>
+                                            <option value='Badagry'>
+                                                Badagry
+                                            </option>
+                                            <option value='Ebute Ikorodu'>
+                                                Ebute Ikorodu
+                                            </option>
+                                            <option value='Ejirin'>
+                                                Ejirin
+                                            </option>
+                                            <option value='Epe'>Epe</option>
+                                            <option value='Ikeja'>Ikeja</option>
+                                            <option value='Lagos'>Lagos</option>
+                                            <option value='Makoko'>
+                                                Makoko
+                                            </option>
+                                        </select>
+                                        {/* <input
                                             type='text'
                                             id='city'
                                             placeholder='lagos'
                                             {...register("city", {
                                                 required: true,
                                             })}
-                                            className='input'
-                                        />
+                                            className={`input ${
+                                                errors.city && "input-error"
+                                            }`}
+                                        /> */}
                                     </FormGroup>
 
                                     <FormGroup>
-                                        <Label name={"country"} />
-                                        <input
-                                            type='text'
+                                        <div className='flex justify-between'>
+                                            <Label name={"country"} />
+                                            {errors.country && (
+                                                <p
+                                                    role='alert'
+                                                    className='text-xs text-red-500'>
+                                                    Enter country!
+                                                </p>
+                                            )}
+                                        </div>
+                                        <select
                                             id='country'
-                                            placeholder='Nigeria'
                                             {...register("country", {
                                                 required: true,
                                             })}
-                                            className='input'
-                                        />
+                                            className={`input ${
+                                                errors.country && "input-error"
+                                            }`}>
+                                            <option value=''>
+                                                --Select country--
+                                            </option>
+                                            <option value='Apapa'>Apapa</option>
+                                            <option value='Badagry'>
+                                                Badagry
+                                            </option>
+                                            <option value='Ebute Ikorodu'>
+                                                Ebute Ikorodu
+                                            </option>
+                                            <option value='Ejirin'>
+                                                Ejirin
+                                            </option>
+                                            <option value='Epe'>Epe</option>
+                                            <option value='Ikeja'>Ikeja</option>
+                                            <option value='Lagos'>Lagos</option>
+                                            <option value='Makoko'>
+                                                Makoko
+                                            </option>
+                                        </select>
                                     </FormGroup>
                                 </div>
                             </div>
@@ -167,5 +309,7 @@ const Checkout = () => {
         </Container>
     );
 };
+
+export const getServerSideProps = withPageAuthRequired();
 
 export default Checkout;
