@@ -40,7 +40,7 @@ const Category = ({ selectedCategory }: Props) => {
                         return (
                             <article
                                 key={idx}
-                                className='mb-16 text-center md:flex md:gap-4 xl:gap-8'>
+                                className='mb-16 text-center md:flex md:gap-4 xl:gap-24 xl:w-[90%] xl:mx-auto'>
                                 <div
                                     className={`relative w-auto h-[40vh] xs:w-[300px]
                              xs:h-[360px] max-w-lg mx-auto md:basis-1/2 md:min-h-[460px] xl:min-h-[512px]  ${

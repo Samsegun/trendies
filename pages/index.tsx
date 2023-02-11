@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import Head from "next/head";
 import Error from "next/error";
 import { GetStaticProps, NextPage } from "next";
-// import {useUser} from "@auth0/nextjs-auth0";
 import { getAllProducts } from "@/utils/ApiRequets";
 import { ProductArray } from "@/types/productType";
 import Link from "next/link";
