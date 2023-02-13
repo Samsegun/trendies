@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { initialize } from "@/firebase";
+import { signInAnonymously } from "firebase/auth";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { useCartStore } from "@/store/cart";
 import styles from "../../styles/Header.module.css";
@@ -24,10 +26,14 @@ const Header = ({ handleModal, cartModal, signInModal }: Props) => {
     const { cart, totals, addTotals } = useCartStore(state => state);
     const { push } = useRouter();
     const { isLoading, user, error } = useUser();
+    const { auth, fireStore, firebaseApp } = initialize();
 
-    // console.log(user);
+    const handleLogin = async () => {
+        const result = await signInAnonymously(auth);
+        console.log(result.user);
+    };
 
-    const handleLogin = () => push("/api/auth/login");
+    // const handleLogin = () => push("/api/auth/login");
     const handleLogOut = () => push("/api/auth/logout");
 
     useEffect(() => {

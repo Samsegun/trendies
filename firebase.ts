@@ -1,15 +1,17 @@
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { getAuth, connectAuthEmulator } from "firebase/auth";
+import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
+import { config } from "./firebaseConfig";
 
-const firebaseConfig = {
-    apiKey: process.env.API_KEY,
-    authDomain: process.env.AUTH_DOMAIN,
-    projectId: process.env.PROJECT_ID,
-    storageBucket: process.env.STORAGE_BUCKET,
-    messagingSenderId: process.env.MESSAGING_SENDER_ID,
-    appId: process.env.APP_ID,
-};
+export function initialize() {
+    const firebaseApp = initializeApp(config.firebase);
+    const auth = getAuth(firebaseApp);
+    const fireStore = getFirestore(firebaseApp);
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+    // if (location.hostname === "localhost") {
+    //     connectAuthEmulator(auth, "http://localhost:9099");
+    //     connectFirestoreEmulator(fireStore, "localhost", 8080);
+    // }
+
+    return { firebaseApp, auth, fireStore };
+}

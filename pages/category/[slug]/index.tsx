@@ -24,65 +24,70 @@ const Category = ({ selectedCategory }: Props) => {
         return category;
     };
 
-    if (selectedCategory.length === 0) {
+    if (selectedCategory === null) {
         return <Error statusCode={503} />;
     }
 
     return (
         <div>
             <div className='p-8 text-xl font-semibold tracking-wide text-center text-white uppercase bg-black'>
-                <h1>{selectedCategory[0].category}</h1>
+                <h1>
+                    {selectedCategory
+                        ? selectedCategory[0].category
+                        : "An error occured"}
+                </h1>
             </div>
 
             <Container>
                 <section className='px-4 mt-8 '>
-                    {selectedCategory.map((product, idx) => {
-                        return (
-                            <article
-                                key={idx}
-                                className='mb-16 text-center md:flex md:gap-4 xl:gap-24 xl:w-[90%] xl:mx-auto'>
-                                <div
-                                    className={`relative w-auto h-[40vh] xs:w-[300px]
+                    {selectedCategory &&
+                        selectedCategory.map((product, idx) => {
+                            return (
+                                <article
+                                    key={idx}
+                                    className='mb-16 text-center md:flex md:gap-4 xl:gap-24 xl:w-[90%] xl:mx-auto'>
+                                    <div
+                                        className={`relative w-auto h-[40vh] xs:w-[300px]
                              xs:h-[360px] max-w-lg mx-auto md:basis-1/2 md:min-h-[460px] xl:min-h-[512px]  ${
                                  idx % 2 === 0 ? "md:-order-1" : "md:order-1"
                              }`}>
-                                    <Image
-                                        src={product.image}
-                                        alt='product'
-                                        fill={true}
-                                        sizes='(max-width: 768px) 100%,
+                                        <Image
+                                            src={product.image}
+                                            alt='product'
+                                            fill={true}
+                                            sizes='(max-width: 768px) 100%,
                                                 (max-width: 1280px) 100%,
                                                      100%'
-                                        style={{
-                                            borderRadius: "8px",
-                                        }}
-                                    />
-                                </div>
+                                            style={{
+                                                borderRadius: "8px",
+                                            }}
+                                        />
+                                    </div>
 
-                                <div className='mx-auto sm:w-2/3 md:w-auto md:basis-1/2 md:self-center md:text-left'>
-                                    <h2 className='my-6 text-3xl font-semibold tracking-wide'>
-                                        {product.title}
-                                    </h2>
+                                    <div className='mx-auto sm:w-2/3 md:w-auto md:basis-1/2 md:self-center md:text-left'>
+                                        <h2 className='my-6 text-3xl font-semibold tracking-wide'>
+                                            {product.title}
+                                        </h2>
 
-                                    <p className='text-sm mb-6 px-2 leading-[25px] xl:w-3/4'>
-                                        {product.description}
-                                    </p>
+                                        <p className='text-sm mb-6 px-2 leading-[25px] xl:w-3/4'>
+                                            {product.description}
+                                        </p>
 
-                                    <button
-                                        type='button'
-                                        className='bg-[#e33f3f] hover:bg-[#f44b4b] transition-all duration-300 text-white uppercase '>
-                                        <Link
-                                            href={`/category/${adjustText(
-                                                product.category
-                                            )}/${product.id}`}
-                                            className='block px-8 py-4'>
-                                            see product
-                                        </Link>
-                                    </button>
-                                </div>
-                            </article>
-                        );
-                    })}
+                                        <button
+                                            type='button'
+                                            className='bg-[#e33f3f] hover:bg-[#f44b4b] transition-all duration-300 text-white uppercase '>
+                                            <Link
+                                                href={`/category/${adjustText(
+                                                    product.category
+                                                )}/${product.id}`}
+                                                className='block px-8 py-4'>
+                                                see product
+                                            </Link>
+                                        </button>
+                                    </div>
+                                </article>
+                            );
+                        })}
                 </section>
             </Container>
         </div>
@@ -118,19 +123,24 @@ export async function getStaticProps(
         slug = "women's%20clothing";
     }
 
-    let categoryData: ProductArray;
+    let categoryData;
     try {
         categoryData = (await getSingleCategory(slug)).data;
+        return {
+            props: {
+                selectedCategory: categoryData,
+            },
+        };
     } catch (error) {
-        categoryData = [];
+        categoryData = null;
         return { props: { selectedCategory: categoryData } };
     }
 
-    return {
-        props: {
-            selectedCategory: categoryData,
-        },
-    };
+    // return {
+    //     props: {
+    //         selectedCategory: categoryData,
+    //     },
+    // };
 }
 
 export default Category;
