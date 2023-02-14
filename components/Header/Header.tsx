@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { initialize } from "@/firebase";
 import { signInAnonymously } from "firebase/auth";
+import { onSnapshot } from "firebase/firestore";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { useCartStore } from "@/store/cart";
 import styles from "../../styles/Header.module.css";
