@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { ReactElement, useState } from "react";
 import { GetStaticPropsContext } from "next";
 import Error from "next/error";
 import Image from "next/image";
 import Link from "next/link";
+import { NextPageWithLayout } from "@/pages/_app";
+import Layout from "@/components/layout";
 import Container from "@/components/UI/container";
 import { ProductArray } from "@/types/productType";
 import { getAllCategories, getSingleCategory } from "@/utils/ApiRequets";
@@ -11,7 +13,7 @@ type Props = {
     selectedCategory: ProductArray;
 };
 
-const Category = ({ selectedCategory }: Props) => {
+const Category: NextPageWithLayout<Props> = ({ selectedCategory }) => {
     const adjustText = (text: string) => {
         let category = text;
 
@@ -92,6 +94,10 @@ const Category = ({ selectedCategory }: Props) => {
             </Container>
         </div>
     );
+};
+
+Category.getLayout = function getLayout(page: ReactElement) {
+    return <Layout>{page}</Layout>;
 };
 
 export async function getStaticPaths() {

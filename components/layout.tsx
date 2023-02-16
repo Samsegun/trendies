@@ -8,6 +8,7 @@ import { ParamsProvider } from "@/context/productParams";
 import Footer from "./Footer/footer";
 import Header from "./Header/Header";
 import NavLink from "./UI/Navlink";
+import { useCartStore } from "@/store/cart";
 
 NProgress.configure({
     minimum: 0.3,
@@ -23,6 +24,8 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         signIn: false,
         overLay: false,
     });
+    const { setToCart } = useCartStore(state => state);
+
     const router = useRouter();
 
     const handleModal = (action: string) => {
@@ -64,6 +67,12 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     };
 
     useEffect(() => {
+        const fromStorage = localStorage.getItem("cart")
+            ? JSON.parse(localStorage.getItem("cart")!).cart
+            : [];
+
+        setToCart(fromStorage);
+
         router.events.on("routeChangeStart", () => NProgress.start());
         router.events.on("routeChangeComplete", () => {
             NProgress.done();

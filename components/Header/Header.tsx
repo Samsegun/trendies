@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { initialize } from "@/firebase";
 import { signInAnonymously } from "firebase/auth";
 import { onSnapshot } from "firebase/firestore";
+import Cookies from "js-cookie";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { useCartStore } from "@/store/cart";
 import styles from "../../styles/Header.module.css";
@@ -28,14 +29,21 @@ const Header = ({ handleModal, cartModal, signInModal }: Props) => {
     const { push } = useRouter();
     const { isLoading, user, error } = useUser();
     const { auth, fireStore, firebaseApp } = initialize();
+    const router = useRouter();
 
     const handleLogin = async () => {
-        const result = await signInAnonymously(auth);
-        console.log(result.user);
+        // const result = await signInAnonymously(auth);
+        // console.log(result.user);
+        router.push("/login");
+    };
+
+    const handleLogOut = () => {
+        Cookies.remove("loggedin");
+        router.push("/");
     };
 
     // const handleLogin = () => push("/api/auth/login");
-    const handleLogOut = () => push("/api/auth/logout");
+    // const handleLogOut = () => push("/api/auth/logout");
 
     useEffect(() => {
         addTotals();

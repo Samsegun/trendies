@@ -22,21 +22,39 @@ interface CartState {
     removeCartItem: (id: number) => void;
     resetCart: () => void;
     addTotals: () => void;
+    setToCart: (cartFromStorage: []) => void;
 }
+
+// const storageCart = localStorage.getItem("cart")
+//     ? JSON.parse(localStorage.getItem("cart")!)
+//     : null;
 
 export const useCartStore = create<CartState>()(set => ({
     cart: [],
     totals: { cartQty: 0, cartTotals: 0 },
     addToCart: (id, name, qty, price, image) =>
         set(state => {
+            let newCart: {};
             if (state.cart.find(item => item.id === id)) {
-                return { cart: state.cart };
+                newCart = { cart: state.cart };
+
+                // set to local storage
+                localStorage.setItem("cart", JSON.stringify(newCart));
+                return newCart;
             }
 
-            return { cart: [...state.cart, { id, name, qty, price, image }] };
+            newCart = {
+                cart: [...state.cart, { id, name, qty, price, image }],
+            };
+
+            // set to local storage
+            localStorage.setItem("cart", JSON.stringify(newCart));
+
+            return newCart;
         }),
     increaseCartQty: id =>
         set(state => {
+            let newCart: {};
             const queryIndex = state.cart.findIndex(item => item.id === id);
             const cartState = [...state.cart];
             cartState[queryIndex] = {
@@ -44,10 +62,16 @@ export const useCartStore = create<CartState>()(set => ({
                 qty: (cartState[queryIndex].qty += 1),
             };
 
-            return { cart: cartState };
+            newCart = { cart: cartState };
+
+            // set to local storage
+            localStorage.setItem("cart", JSON.stringify(newCart));
+
+            return newCart;
         }),
     decreaseCartQty: id =>
         set(state => {
+            let newCart: {};
             const queryIndex = state.cart.findIndex(item => item.id === id);
             const cartState = [...state.cart];
 
@@ -60,15 +84,33 @@ export const useCartStore = create<CartState>()(set => ({
                 ...cartState[queryIndex],
                 qty: (cartState[queryIndex].qty -= 1),
             };
-            return { cart: cartState };
+
+            newCart = { cart: cartState };
+
+            // set to local storage
+            localStorage.setItem("cart", JSON.stringify(newCart));
+
+            return newCart;
         }),
     removeCartItem: id =>
         set(state => {
+            let newCart = {};
             const filteredCart = state.cart.filter(item => item.id !== id);
 
-            return { cart: [...filteredCart] };
+            newCart = { cart: filteredCart };
+
+            // set to local storage
+            localStorage.setItem("cart", JSON.stringify(newCart));
+
+            return newCart;
         }),
-    resetCart: () => set(state => ({ cart: [] })),
+    resetCart: () =>
+        set(state => {
+            // remove from local storage
+            localStorage.removeItem("cart");
+
+            return { cart: [] };
+        }),
     addTotals: () =>
         set(state => {
             let quantities = 0;
@@ -79,4 +121,5 @@ export const useCartStore = create<CartState>()(set => ({
             });
             return { totals: { cartQty: quantities, cartTotals: total } };
         }),
+    setToCart: cartFromStorage => set(state => ({ cart: cartFromStorage })),
 }));

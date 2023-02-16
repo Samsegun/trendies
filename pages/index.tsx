@@ -1,19 +1,20 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { ReactElement, useContext, useEffect, useState } from "react";
 import Head from "next/head";
 import Error from "next/error";
 import { GetStaticProps, NextPage } from "next";
 import { getAllProducts } from "@/utils/ApiRequets";
 import { ProductArray } from "@/types/productType";
 import Link from "next/link";
+import { NextPageWithLayout } from "./_app";
 import { ParamsContext } from "@/context/productParams";
 import BannerSection from "@/components/Banner/BannerSection";
 import Container from "@/components/UI/container";
 import Highlights from "@/components/Highlights/highlights";
 import FeaturedProducts from "@/components/FeaturedProducts/FeaturedProducts";
 import About from "@/components/About/about";
-// import firebase from "firebase"
+import Layout from "@/components/layout";
 
-const Home: NextPage<{ products: ProductArray }> = ({ products }) => {
+const Home: NextPageWithLayout<{ products: ProductArray }> = ({ products }) => {
     const { setNewParams } = useContext(ParamsContext);
     // useUser()
 
@@ -55,6 +56,10 @@ const Home: NextPage<{ products: ProductArray }> = ({ products }) => {
             <About />
         </>
     );
+};
+
+Home.getLayout = function getLayout(page: ReactElement) {
+    return <Layout>{page}</Layout>;
 };
 
 export const getStaticProps: GetStaticProps<{

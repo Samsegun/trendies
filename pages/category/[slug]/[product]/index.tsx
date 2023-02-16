@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import {
     GetServerSideProps,
     GetServerSidePropsContext,
@@ -8,10 +8,14 @@ import { useRouter } from "next/router";
 import Error from "next/error";
 import Link from "next/link";
 import Image from "next/image";
+import Layout from "@/components/layout";
+import { initialize } from "@/firebase";
+import { collection, doc, onSnapshot, setDoc } from "firebase/firestore";
 import { getAllProducts, getSingleProduct } from "@/utils/ApiRequets";
 import Container from "@/components/UI/container";
 import About from "@/components/About/about";
 import { useCartStore } from "@/store/cart";
+import { NextPageWithLayout } from "@/pages/_app";
 
 type Props = {
     product: {
@@ -28,8 +32,16 @@ type Props = {
     };
 };
 
-const ProductPage = ({ product }: Props) => {
+interface CartType {
+    id: number;
+    name: string;
+    qty: number;
+    price: number;
+}
+
+const ProductPage: NextPageWithLayout<Props> = ({ product }) => {
     const [cartItemQty, setCartItemQty] = useState(1);
+    // const [fireStoreCart, setFireStoreCart] = useState<CartType[]>([]);
     const {
         addToCart,
         cart,
@@ -39,13 +51,25 @@ const ProductPage = ({ product }: Props) => {
     } = useCartStore(state => state);
     const router = useRouter();
 
+    // get collection from firestore
+    // const { fireStore } = initialize();
+    // const cartCol = collection(fireStore, "cart");
+    // const singleCart = doc(cartCol, "testuser");
+
+    // find item in cart
     const itemInCart = cart.find(item => item.id === product.id);
 
     useEffect(() => {
         if (itemInCart) setCartItemQty(itemInCart?.qty!);
-    }, [itemInCart?.qty]);
 
-    console.log(cart);
+        // onSnapshot(singleCart, snapshot => {
+        //     console.log(snapshot.data());
+
+        //     if (snapshot.data()?.cart) {
+        //         setFireStoreCart(snapshot.data()?.cart);
+        //     }
+        // });
+    }, [itemInCart?.qty]);
 
     /**  --how to update cart--
     check if rendered product is in cart store. If true, update 
@@ -73,6 +97,33 @@ const ProductPage = ({ product }: Props) => {
         if (operation === "add") {
             setCartItemQty((itemQty += 1));
         }
+    };
+
+    const addCart = () => {
+        addToCart(
+            product.id,
+            product.title,
+            cartItemQty,
+            product.price,
+            product.image
+        );
+
+        // set to database
+        // setDoc(
+        //     singleCart,
+        //     {
+        //         cart: [
+        //             ...fireStoreCart,
+        //             {
+        //                 id: product.id,
+        //                 name: product.title,
+        //                 qty: cartItemQty,
+        //                 price: product.price,
+        //             },
+        //         ],
+        //     },
+        //     { merge: true }
+        // );
     };
 
     if (!product["id"]) {
@@ -142,15 +193,7 @@ const ProductPage = ({ product }: Props) => {
                                     type='button'
                                     className='bg-[#e33f3f] hover:bg-[#f44b4b] font-bold text-sm transition-all
                                  duration-300 text-white uppercase py-2 px-6 xs:py-4 sm:px-8'
-                                    onClick={() =>
-                                        addToCart(
-                                            product.id,
-                                            product.title,
-                                            cartItemQty,
-                                            product.price,
-                                            product.image
-                                        )
-                                    }>
+                                    onClick={addCart}>
                                     add to cart
                                 </button>
                             )}
@@ -179,6 +222,10 @@ const ProductPage = ({ product }: Props) => {
             </div>
         </Container>
     );
+};
+
+ProductPage.getLayout = function getLayout(page: ReactElement) {
+    return <Layout>{page}</Layout>;
 };
 
 export async function getServerSideProps(

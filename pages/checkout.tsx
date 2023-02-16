@@ -7,6 +7,9 @@ import FormSummary from "@/components/formSummary";
 import Container from "@/components/UI/container";
 import { FormGroup, Label } from "@/components/UI/formComponents";
 import { useCartStore } from "@/store/cart";
+import { ReactElement } from "react";
+import Layout from "@/components/layout";
+import { NextPageWithLayout } from "./_app";
 
 export type Inputs = {
     name: string;
@@ -18,7 +21,7 @@ export type Inputs = {
     country: string;
 };
 
-const Checkout = () => {
+const Checkout: NextPageWithLayout = () => {
     const router = useRouter();
     const { user } = useUser();
     const { cart } = useCartStore();
@@ -310,6 +313,10 @@ const Checkout = () => {
     );
 };
 
-export const getServerSideProps = withPageAuthRequired();
+Checkout.getLayout = function getLayout(page: ReactElement) {
+    return <Layout>{page}</Layout>;
+};
+
+// export const getServerSideProps = withPageAuthRequired();
 
 export default Checkout;
