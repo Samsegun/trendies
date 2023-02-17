@@ -2,7 +2,7 @@ import { NextPage } from "next";
 import type { AppProps } from "next/app";
 import { ReactElement, ReactNode } from "react";
 // import Layout from "@/components/layout";
-import { UserProvider } from "@auth0/nextjs-auth0/client";
+// import { UserProvider } from "@auth0/nextjs-auth0/client";
 import "@/styles/globals.css";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
@@ -18,10 +18,8 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
     const getLayout = Component.getLayout ?? (page => page);
 
     return (
-        <UserProvider>
-            {/* <Layout> */}
-            {getLayout(<Component {...pageProps} />)}
-            {/* </Layout> */}
-        </UserProvider>
+        // <UserProvider>
+        <>{getLayout(<Component {...pageProps} />)}</>
+        // </UserProvider>
     );
 }
