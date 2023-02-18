@@ -1,10 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Cookies from "js-cookie";
 import Link from "next/link";
-import Container from "@/components/UI/container";
-import { FormGroup, Label } from "@/components/UI/formComponents";
+import { toast } from "react-toastify";
+import {
+    createUserWithEmailAndPassword,
+    signInWithRedirect,
+    GoogleAuthProvider,
+    linkWithCredential,
+    EmailAuthProvider,
+    linkWithRedirect,
+    signInWithEmailAndPassword,
+    getRedirectResult,
+} from "firebase/auth";
 import { useRouter } from "next/router";
+import { initialize } from "@/firebase";
+import { FormGroup, Label } from "@/components/UI/formComponents";
+import Container from "@/components/UI/container";
 
 export type Inputs = {
     email: string;
@@ -20,15 +32,51 @@ const Login = () => {
         formState: { errors },
     } = useForm<Inputs>();
     const router = useRouter();
+    const { auth } = initialize();
 
-    const testLogin = () => {
-        Cookies.set("loggedin", "true");
-        router.push("/");
+    // const testLogin = () => {
+    //     Cookies.set("loggedin", "true");
+    //     router.push("/");
+    // };
+
+    // useEffect(() => {
+    //     signInWithGoogle();
+    // }, []);
+
+    // const signInWithGoogle = async () => {
+    //     try {
+    //         await getRedirectResult(auth);
+    //         router.push("/");
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // };
+
+    const signInGoogle = () => {
+        signInWithRedirect(auth, new GoogleAuthProvider());
     };
 
     const onSubmit: SubmitHandler<Inputs> = data => {
-        console.log(data);
-        // console.log({ ...data, id: user && user.sid });
+        console.log(data.email, data.password);
+
+        if (!isLogin) {
+            createUserWithEmailAndPassword(auth, data.email, data.password)
+                .then(() => router.push("/"))
+                .catch(error => {
+                    console.log(error);
+                    toast.error("An error occurred. Please try again!");
+                });
+
+            router.push("/");
+        } else {
+            signInWithEmailAndPassword(auth, data.email, data.password)
+                .then(() => router.push("/"))
+                .catch(error => {
+                    console.log(error);
+
+                    toast.error("Sign In error. Please try again!");
+                });
+        }
     };
 
     return (
@@ -104,7 +152,12 @@ const Login = () => {
                         </button>
                     </form>
 
-                    <button onClick={testLogin}>log in</button>
+                    <button
+                        className='bg-[#a7cd2c] text-white w-full mt-8 py-4
+             px-12 text-xs uppercase cursor-pointer'
+                        onClick={signInGoogle}>
+                        continue with google
+                    </button>
 
                     <p className='mt-4 font-light text-center'>
                         Don't have an account?{" "}

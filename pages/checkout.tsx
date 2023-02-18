@@ -23,7 +23,7 @@ export type Inputs = {
 
 const Checkout: NextPageWithLayout = () => {
     const router = useRouter();
-    const { user } = useUser();
+    // const { user } = useUser();
     const { cart } = useCartStore();
 
     const {
@@ -38,7 +38,7 @@ const Checkout: NextPageWithLayout = () => {
             toast.error("Can't checkout with empty cart!");
             return;
         }
-        console.log({ ...data, id: user && user.sid });
+        console.log({ ...data });
     };
 
     return (
@@ -109,9 +109,9 @@ const Checkout: NextPageWithLayout = () => {
                                         </div>
                                         <input
                                             type='email'
-                                            defaultValue={
-                                                user ? user.email! : ""
-                                            }
+                                            // defaultValue={
+                                            //     user ? user.email! : ""
+                                            // }
                                             id='email address'
                                             placeholder='sam@xyz.com'
                                             {...register("email", {

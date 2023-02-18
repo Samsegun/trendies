@@ -3,19 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { initialize } from "../../firebase";
-import { signInAnonymously } from "firebase/auth";
-import {
-    onAuthStateChanged,
-    createUserWithEmailAndPassword,
-    signInWithRedirect,
-    getRedirectResult,
-    GoogleAuthProvider,
-    linkWithCredential,
-    EmailAuthProvider,
-    linkWithRedirect,
-    signOut,
-    signInWithEmailAndPassword,
-} from "firebase/auth";
+import { getRedirectResult, onAuthStateChanged, signOut } from "firebase/auth";
 // import { onSnapshot } from "firebase/firestore";
 import Cookies from "js-cookie";
 import { useUser } from "@auth0/nextjs-auth0/client";
@@ -37,28 +25,43 @@ type Props = {
 };
 
 const Header = ({ handleModal, cartModal, signInModal }: Props) => {
+    const [user, setUser] = useState<any>();
     const { cart, totals, addTotals } = useCartStore(state => state);
     const { push } = useRouter();
     // const { isLoading, user, error } = useUser();
-    const { auth, fireStore, firebaseApp } = initialize();
+    const { auth, fireStore } = initialize();
     const router = useRouter();
 
     const handleLogin = async () => {
-        const result = await signInAnonymously(auth);
-        console.log(result.user);
-        // router.push("/login");
+        // const result = await signInAnonymously(auth);
+        // console.log(result.user);
+        router.push("/login");
     };
 
     const handleLogOut = () => {
-        Cookies.remove("loggedin");
-        router.push("/");
+        // Cookies.remove("loggedin");
+        signOut(auth);
+        // router.push("/");
     };
 
-    // const handleLogin = () => push("/api/auth/login");
-    // const handleLogOut = () => push("/api/auth/logout");
+    const signInWithGoogle = async () => {
+        try {
+            await getRedirectResult(auth);
+            router.push("/");
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     useEffect(() => {
         addTotals();
+
+        signInWithGoogle();
+
+        onAuthStateChanged(auth, user => {
+            console.log(user);
+            setUser(user);
+        });
     }, [cart]);
 
     return (
@@ -116,8 +119,12 @@ const Header = ({ handleModal, cartModal, signInModal }: Props) => {
                                 }
                                 onClick={handleModal.bind(null, "signIn")}>
                                 <Image
-                                    src={accountIcon}
-                                    // src={user ? user.picture : accountIcon}
+                                    // src={accountIcon}
+                                    src={
+                                        user?.photoURL
+                                            ? user.photoURL
+                                            : accountIcon
+                                    }
                                     alt='wish list'
                                     className='rounded-xl'
                                     width={1000}
@@ -156,7 +163,7 @@ const Header = ({ handleModal, cartModal, signInModal }: Props) => {
                                 className='absolute right-0 z-40 w-[90%] flex flex-col gap-4
                           max-w-xs bg-white text-black text-center top-12 h-auto p-2 pb-6 xs:p-4 shadow-xl'>
                                 {/* if user is not logged in, display these sign-up and login buttons*/}
-                                {true && (
+                                {!user && (
                                     <>
                                         {" "}
                                         <button
@@ -173,9 +180,9 @@ const Header = ({ handleModal, cartModal, signInModal }: Props) => {
                                 )}
 
                                 {/* if user is logged in, display this content*/}
-                                {false && (
+                                {user && (
                                     <>
-                                        <h3>{"welcome user"}</h3>
+                                        <h3>{user.email}</h3>
                                         <button
                                             className='bg-[#fa6d6d] hover:bg-[#fd5757]
                                              text-white uppercase px-4 py-2 w-full rounded-2xl'
