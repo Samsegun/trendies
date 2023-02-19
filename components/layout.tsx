@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { ParamsProvider } from "@/context/productParams";
+// import { ParamsProvider } from "@/context/productParams";
 import Footer from "./Footer/footer";
 import Header from "./Header/Header";
 import NavLink from "./UI/Navlink";
@@ -96,7 +95,6 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 cartModal={modal.cartModal}
                 signInModal={modal.signIn}
             />
-            <ToastContainer />
             {/* overlay */}
             {modal.overLay && (
                 <div

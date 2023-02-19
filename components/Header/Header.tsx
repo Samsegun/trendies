@@ -28,26 +28,20 @@ const Header = ({ handleModal, cartModal, signInModal }: Props) => {
     const [user, setUser] = useState<any>();
     const { cart, totals, addTotals } = useCartStore(state => state);
     const { push } = useRouter();
-    // const { isLoading, user, error } = useUser();
     const { auth, fireStore } = initialize();
-    const router = useRouter();
 
     const handleLogin = async () => {
-        // const result = await signInAnonymously(auth);
-        // console.log(result.user);
-        router.push("/login");
+        push("/login");
     };
 
     const handleLogOut = () => {
-        // Cookies.remove("loggedin");
+        Cookies.remove("accessToken");
         signOut(auth);
-        // router.push("/");
     };
 
     const signInWithGoogle = async () => {
         try {
             await getRedirectResult(auth);
-            router.push("/");
         } catch (error) {
             console.log(error);
         }

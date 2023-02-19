@@ -1,6 +1,7 @@
 import { NextPage } from "next";
 import type { AppProps } from "next/app";
 import { ReactElement, ReactNode } from "react";
+import { ToastContainer } from "react-toastify";
 // import Layout from "@/components/layout";
 // import { UserProvider } from "@auth0/nextjs-auth0/client";
 import "@/styles/globals.css";
@@ -19,7 +20,10 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 
     return (
         // <UserProvider>
-        <>{getLayout(<Component {...pageProps} />)}</>
+        <>
+            <ToastContainer />
+            {getLayout(<Component {...pageProps} />)}
+        </>
         // </UserProvider>
     );
 }
