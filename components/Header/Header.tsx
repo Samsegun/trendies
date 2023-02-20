@@ -17,6 +17,7 @@ import ItemCount from "../UI/itemsCount";
 import Container from "../UI/container";
 import NavLink from "../UI/Navlink";
 import CartModal from "../CartModal";
+import { toast } from "react-toastify";
 
 type Props = {
     handleModal: (text: string) => void;
@@ -25,10 +26,12 @@ type Props = {
 };
 
 const Header = ({ handleModal, cartModal, signInModal }: Props) => {
-    const [user, setUser] = useState<any>();
-    const { cart, totals, addTotals } = useCartStore(state => state);
+    // const [user, setUser] = useState<any>();
+    const { cart, totals, addTotals, user, setUser, setToCart } = useCartStore(
+        state => state
+    );
     const { push } = useRouter();
-    const { auth, fireStore } = initialize();
+    const { auth } = initialize();
 
     const handleLogin = async () => {
         push("/login");
@@ -36,6 +39,9 @@ const Header = ({ handleModal, cartModal, signInModal }: Props) => {
 
     const handleLogOut = () => {
         Cookies.remove("accessToken");
+        localStorage.removeItem("cart");
+        setUser({});
+        setToCart([]);
         signOut(auth);
     };
 
@@ -43,7 +49,7 @@ const Header = ({ handleModal, cartModal, signInModal }: Props) => {
         try {
             await getRedirectResult(auth);
         } catch (error) {
-            console.log(error);
+            toast.error("Log-In error!. Please try again");
         }
     };
 
@@ -53,8 +59,7 @@ const Header = ({ handleModal, cartModal, signInModal }: Props) => {
         signInWithGoogle();
 
         onAuthStateChanged(auth, user => {
-            console.log(user);
-            setUser(user);
+            if (user) setUser(user);
         });
     }, [cart]);
 
@@ -157,7 +162,7 @@ const Header = ({ handleModal, cartModal, signInModal }: Props) => {
                                 className='absolute right-0 z-40 w-[90%] flex flex-col gap-4
                           max-w-xs bg-white text-black text-center top-12 h-auto p-2 pb-6 xs:p-4 shadow-xl'>
                                 {/* if user is not logged in, display these sign-up and login buttons*/}
-                                {!user && (
+                                {!Object.keys(user).length && (
                                     <>
                                         {" "}
                                         <button
@@ -174,7 +179,7 @@ const Header = ({ handleModal, cartModal, signInModal }: Props) => {
                                 )}
 
                                 {/* if user is logged in, display this content*/}
-                                {user && (
+                                {Boolean(Object.keys(user).length) && (
                                     <>
                                         <h3>{user.email}</h3>
                                         <button

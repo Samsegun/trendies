@@ -10,6 +10,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Layout from "@/components/layout";
 import { initialize } from "@/firebase";
+import { onAuthStateChanged } from "firebase/auth";
 import { collection, doc, onSnapshot, setDoc } from "firebase/firestore";
 import { getAllProducts, getSingleProduct } from "@/utils/ApiRequets";
 import Container from "@/components/UI/container";
@@ -41,7 +42,7 @@ interface CartType {
 
 const ProductPage: NextPageWithLayout<Props> = ({ product }) => {
     const [cartItemQty, setCartItemQty] = useState(1);
-    // const [fireStoreCart, setFireStoreCart] = useState<CartType[]>([]);
+    const [loggedinUser, setLoggedinUser] = useState<any>();
     const {
         addToCart,
         cart,
@@ -52,9 +53,8 @@ const ProductPage: NextPageWithLayout<Props> = ({ product }) => {
     const router = useRouter();
 
     // get collection from firestore
-    // const { fireStore } = initialize();
-    // const cartCol = collection(fireStore, "cart");
-    // const singleCart = doc(cartCol, "testuser");
+    const { fireStore, auth } = initialize();
+    const cartCol = collection(fireStore, "cart");
 
     // find item in cart
     const itemInCart = cart.find(item => item.id === product.id);
@@ -62,12 +62,12 @@ const ProductPage: NextPageWithLayout<Props> = ({ product }) => {
     useEffect(() => {
         if (itemInCart) setCartItemQty(itemInCart?.qty!);
 
+        onAuthStateChanged(auth, user => {
+            if (user) setLoggedinUser(user);
+        });
+
         // onSnapshot(singleCart, snapshot => {
         //     console.log(snapshot.data());
-
-        //     if (snapshot.data()?.cart) {
-        //         setFireStoreCart(snapshot.data()?.cart);
-        //     }
         // });
     }, [itemInCart?.qty]);
 
@@ -109,21 +109,26 @@ const ProductPage: NextPageWithLayout<Props> = ({ product }) => {
         );
 
         // set to database
-        // setDoc(
-        //     singleCart,
-        //     {
-        //         cart: [
-        //             ...fireStoreCart,
-        //             {
-        //                 id: product.id,
-        //                 name: product.title,
-        //                 qty: cartItemQty,
-        //                 price: product.price,
-        //             },
-        //         ],
-        //     },
-        //     { merge: true }
-        // );
+        if (loggedinUser) {
+            const singleCart = doc(cartCol, loggedinUser.uid);
+
+            setDoc(
+                singleCart,
+                {
+                    cart: [
+                        ...cart,
+                        {
+                            id: product.id,
+                            name: product.title,
+                            qty: cartItemQty,
+                            price: product.price,
+                            image: product.image,
+                        },
+                    ],
+                },
+                { merge: true }
+            );
+        }
     };
 
     if (!product["id"]) {

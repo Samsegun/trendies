@@ -2,12 +2,17 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
+import { collection, doc, setDoc, getDoc } from "firebase/firestore";
 import "react-toastify/dist/ReactToastify.css";
+import { initialize } from "@/firebase";
 // import { ParamsProvider } from "@/context/productParams";
 import Footer from "./Footer/footer";
 import Header from "./Header/Header";
 import NavLink from "./UI/Navlink";
 import { useCartStore } from "@/store/cart";
+import { onAuthStateChanged } from "firebase/auth";
+import { getCartFromDb, setCartFromStorage } from "@/utils/cartUtils";
+import { toast } from "react-toastify";
 
 NProgress.configure({
     minimum: 0.3,
@@ -23,9 +28,12 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         signIn: false,
         overLay: false,
     });
-    const { setToCart } = useCartStore(state => state);
-
+    const { setToCart, cart, setUser } = useCartStore(state => state);
     const router = useRouter();
+
+    //  get collection from firestore
+    const { fireStore, auth } = initialize();
+    const cartCol = collection(fireStore, "cart");
 
     const handleModal = (action: string) => {
         if (action === "close") {
@@ -66,11 +74,28 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     };
 
     useEffect(() => {
-        const fromStorage = localStorage.getItem("cart")
-            ? JSON.parse(localStorage.getItem("cart")!).cart
-            : [];
+        // get cart from local storage if user is not logged in
+        setCartFromStorage(setToCart);
 
-        setToCart(fromStorage);
+        onAuthStateChanged(auth, user => {
+            // set user to store
+            if (user) {
+                setUser(user);
+            }
+
+            // set cart to database if user is logged in
+            if (user && cart.length) {
+                const singleCart = doc(cartCol, user.uid);
+
+                // set to database
+                setDoc(singleCart, {
+                    cart: [...cart],
+                });
+            } else if (user && !cart.length) {
+                // get cart from database if user is logged in
+                getCartFromDb(user.uid, setToCart);
+            }
+        });
 
         router.events.on("routeChangeStart", () => NProgress.start());
         router.events.on("routeChangeComplete", () => {

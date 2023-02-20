@@ -39,8 +39,9 @@ const Login = () => {
 
     useEffect(() => {
         onAuthStateChanged(auth, user => {
+            const newUser: any = user;
             if (user) {
-                Cookies.set("accessToken", user.accessToken);
+                Cookies.set("accessToken", newUser.accessToken);
                 toast.success("Redirecting....");
                 router.push("/");
             }
@@ -82,12 +83,14 @@ const Login = () => {
             ).catch(error => {
                 console.log(error);
                 toast.error("An error occurred. Please try again!");
+                setIsLoading(false);
             });
         } else {
             signInWithEmailAndPassword(auth, data.email, data.password).catch(
                 error => {
                     console.log(error);
                     toast.error("Sign In error. Please try again!");
+                    setIsLoading(false);
                 }
             );
         }
