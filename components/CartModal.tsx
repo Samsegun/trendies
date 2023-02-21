@@ -16,11 +16,11 @@ import Link from "next/link";
 //           }
 //         | undefined;
 // };
-type Props = {
-    email: string | null | undefined;
-};
+// type Props = {
+//     email: string | null | undefined;
+// };
 
-const CartModal = ({ email }: Props) => {
+const CartModal = () => {
     const { cart, totals, removeCartItem, resetCart } = useCartStore(
         state => state
     );

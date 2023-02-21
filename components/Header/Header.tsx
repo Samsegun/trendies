@@ -40,8 +40,8 @@ const Header = ({ handleModal, cartModal, signInModal }: Props) => {
     const handleLogOut = () => {
         Cookies.remove("accessToken");
         localStorage.removeItem("cart");
-        setUser({});
         setToCart([]);
+        setUser(null);
         signOut(auth);
     };
 
@@ -59,7 +59,11 @@ const Header = ({ handleModal, cartModal, signInModal }: Props) => {
         signInWithGoogle();
 
         onAuthStateChanged(auth, user => {
-            if (user) setUser(user);
+            if (user) {
+                setUser(user);
+            } else {
+                setUser(user);
+            }
         });
     }, [cart]);
 
@@ -154,7 +158,7 @@ const Header = ({ handleModal, cartModal, signInModal }: Props) => {
                         </div>
 
                         {/* cart modal */}
-                        {cartModal && <CartModal email={""} />}
+                        {cartModal && <CartModal />}
 
                         {/* signIn modal */}
                         {signInModal && (
@@ -162,7 +166,7 @@ const Header = ({ handleModal, cartModal, signInModal }: Props) => {
                                 className='absolute right-0 z-40 w-[90%] flex flex-col gap-4
                           max-w-xs bg-white text-black text-center top-12 h-auto p-2 pb-6 xs:p-4 shadow-xl'>
                                 {/* if user is not logged in, display these sign-up and login buttons*/}
-                                {!Object.keys(user).length && (
+                                {!user && (
                                     <>
                                         {" "}
                                         <button
@@ -179,7 +183,7 @@ const Header = ({ handleModal, cartModal, signInModal }: Props) => {
                                 )}
 
                                 {/* if user is logged in, display this content*/}
-                                {Boolean(Object.keys(user).length) && (
+                                {user && (
                                     <>
                                         <h3>{user.email}</h3>
                                         <button

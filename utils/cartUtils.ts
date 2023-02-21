@@ -1,5 +1,11 @@
 import { initialize } from "@/firebase";
-import { collection, doc, getDoc, onSnapshot } from "firebase/firestore";
+import {
+    collection,
+    doc,
+    getDoc,
+    onSnapshot,
+    setDoc,
+} from "firebase/firestore";
 import { toast } from "react-toastify";
 
 const { fireStore, auth } = initialize();
@@ -20,9 +26,9 @@ export const getCartFromDb = async (
 
     try {
         const docSnap = await getDoc(singleCart);
-        console.log(docSnap.data()!.cart);
 
-        if (docSnap.exists()) {
+        if (docSnap.exists() && docSnap.data()!.cart) {
+            console.log(docSnap.data()!.cart);
             setToCart(docSnap.data()!.cart);
         } else {
             setToCart([]);
@@ -31,4 +37,25 @@ export const getCartFromDb = async (
         console.log(error);
         toast.error("Failed to get cart from store!");
     }
+};
+
+export const checkAndSetCartToDb = async (
+    uid: string,
+    setToCart: (a: []) => void,
+    cartFromLocalStorage: any
+) => {
+    const singleCart = doc(cartCol, uid);
+
+    try {
+        const docSnap = await getDoc(singleCart);
+
+        if (docSnap.exists() && docSnap.data()!.cart.length) {
+            setToCart(docSnap.data()!.cart);
+        } else {
+            // set to database
+            setDoc(singleCart, {
+                cart: [...cartFromLocalStorage],
+            });
+        }
+    } catch (error) {}
 };

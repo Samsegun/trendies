@@ -26,7 +26,7 @@ interface CartState {
     resetCart: () => void;
     addTotals: () => void;
     setToCart: (cartFromStorage: []) => void;
-    setUser: (user: {}) => void;
+    setUser: (user: any) => void;
 }
 
 interface newCartState {
@@ -47,7 +47,7 @@ export const useCartStore = create<CartState>()(set => {
     const cartCol = collection(fireStore, "cart");
 
     return {
-        user: {},
+        user: null,
         cart: [],
         totals: { cartQty: 0, cartTotals: 0 },
         addToCart: (id, name, qty, price, image) =>
@@ -88,7 +88,7 @@ export const useCartStore = create<CartState>()(set => {
                 localStorage.setItem("cart", JSON.stringify(newCart));
 
                 // set to database if user is logged in
-                if (Object.keys(state.user).length) {
+                if (state.user) {
                     const userCart = doc(cartCol, state.user.uid);
 
                     setDoc(userCart, {
@@ -122,7 +122,7 @@ export const useCartStore = create<CartState>()(set => {
                 localStorage.setItem("cart", JSON.stringify(newCart));
 
                 // set to database if user is logged in
-                if (Object.keys(state.user).length) {
+                if (state.user) {
                     const userCart = doc(cartCol, state.user.uid);
 
                     setDoc(userCart, {
@@ -145,7 +145,7 @@ export const useCartStore = create<CartState>()(set => {
                 localStorage.setItem("cart", JSON.stringify(newCart));
 
                 // set to database if user is logged in
-                if (Object.keys(state.user).length) {
+                if (state.user) {
                     const userCart = doc(cartCol, state.user.uid);
 
                     setDoc(

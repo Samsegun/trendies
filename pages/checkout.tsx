@@ -7,7 +7,7 @@ import FormSummary from "@/components/formSummary";
 import Container from "@/components/UI/container";
 import { FormGroup, Label } from "@/components/UI/formComponents";
 import { useCartStore } from "@/store/cart";
-import { ReactElement } from "react";
+import { ReactElement, useEffect } from "react";
 import Layout from "@/components/layout";
 import { NextPageWithLayout } from "./_app";
 
@@ -22,8 +22,7 @@ export type Inputs = {
 };
 
 const Checkout: NextPageWithLayout = () => {
-    const router = useRouter();
-    // const { user } = useUser();
+    const { back } = useRouter();
     const { cart } = useCartStore();
 
     const {
@@ -46,7 +45,7 @@ const Checkout: NextPageWithLayout = () => {
             <div className='w-11/12 mx-auto my-4'>
                 <button
                     className='bg-[#f2f2f2] p-2 rounded-2xl'
-                    onClick={() => router.back()}>
+                    onClick={() => back()}>
                     Go Back
                 </button>
 

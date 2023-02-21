@@ -63,7 +63,11 @@ const ProductPage: NextPageWithLayout<Props> = ({ product }) => {
         if (itemInCart) setCartItemQty(itemInCart?.qty!);
 
         onAuthStateChanged(auth, user => {
-            if (user) setLoggedinUser(user);
+            if (user) {
+                setLoggedinUser(user);
+            } else {
+                setLoggedinUser(null);
+            }
         });
 
         // onSnapshot(singleCart, snapshot => {
