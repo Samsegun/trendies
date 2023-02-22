@@ -87,7 +87,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         }
 
         onAuthStateChanged(auth, user => {
-            // set user to store
+            // set user to cart store
             if (user) {
                 setUser(user);
             }

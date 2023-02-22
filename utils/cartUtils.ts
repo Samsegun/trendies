@@ -39,6 +39,10 @@ export const getCartFromDb = async (
     }
 };
 
+/** get user document from db. if user has items in cart,
+ * set cart items to cart state else set cart items in local
+ * storage to db.
+ */
 export const checkAndSetCartToDb = async (
     uid: string,
     setToCart: (a: []) => void,
