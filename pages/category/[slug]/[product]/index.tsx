@@ -69,10 +69,6 @@ const ProductPage: NextPageWithLayout<Props> = ({ product }) => {
                 setLoggedinUser(null);
             }
         });
-
-        // onSnapshot(singleCart, snapshot => {
-        //     console.log(snapshot.data());
-        // });
     }, [itemInCart?.qty]);
 
     /**  --how to update cart--

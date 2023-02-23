@@ -50,24 +50,6 @@ const Login = () => {
         return () => setIsLoading(false);
     }, []);
 
-    // const testLogin = () => {
-    //     Cookies.set("loggedin", "true");
-    //     router.push("/");
-    // };
-
-    // useEffect(() => {
-    //     signInWithGoogle();
-    // }, []);
-
-    // const signInWithGoogle = async () => {
-    //     try {
-    //         await getRedirectResult(auth);
-    //         router.push("/");
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // };
-
     const signInGoogle = () => {
         signInWithRedirect(auth, new GoogleAuthProvider());
     };
