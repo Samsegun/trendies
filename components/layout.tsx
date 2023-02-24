@@ -11,12 +11,7 @@ import Header from "./Header/Header";
 import NavLink from "./UI/Navlink";
 import { useCartStore } from "@/store/cart";
 import { onAuthStateChanged } from "firebase/auth";
-import {
-    checkAndSetCartToDb,
-    getCartFromDb,
-    setCartFromStorage,
-} from "@/utils/cartUtils";
-import { toast } from "react-toastify";
+import { checkAndSetCartToDb, getCartFromDb } from "@/utils/cartUtils";
 
 NProgress.configure({
     minimum: 0.3,
@@ -146,6 +141,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                             onClick={handleModal.bind(null, "close")}>
                             X
                         </button>
+
                         <nav className='flex justify-center h-screen mt-8'>
                             <ul className='flex flex-col items-center gap-8 uppercase '>
                                 <li className='hover:text-[#e33f3f] cursor-pointer transition-all duration-300'>

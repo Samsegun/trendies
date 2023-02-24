@@ -1,10 +1,9 @@
 import React, { ReactElement, useContext, useEffect, useState } from "react";
 import Head from "next/head";
 import Error from "next/error";
-import { GetStaticProps, NextPage } from "next";
+import { GetStaticProps } from "next";
 import { getAllProducts } from "@/utils/ApiRequets";
 import { ProductArray } from "@/types/productType";
-import Link from "next/link";
 import { NextPageWithLayout } from "./_app";
 import { ParamsContext } from "@/context/productParams";
 import BannerSection from "@/components/Banner/BannerSection";
@@ -16,7 +15,6 @@ import Layout from "@/components/layout";
 
 const Home: NextPageWithLayout<{ products: ProductArray }> = ({ products }) => {
     const { setNewParams } = useContext(ParamsContext);
-    // useUser()
 
     const productIds = products.map(product => ({ params: product.id }));
 
@@ -34,7 +32,7 @@ const Home: NextPageWithLayout<{ products: ProductArray }> = ({ products }) => {
                 <title>Trendies</title>
                 <meta
                     name='description'
-                    content='We sell all kinds of trendy outfits'
+                    content='We sell all kinds of trendy outfits and latest gadgets'
                 />
                 <meta
                     name='viewport'
@@ -65,14 +63,6 @@ Home.getLayout = function getLayout(page: ReactElement) {
 export const getStaticProps: GetStaticProps<{
     products: ProductArray;
 }> = async () => {
-    // const result = await getAllProducts();
-    // console.log(result.status);
-
-    // const errorCode = result.status > 299 ? result.status : false;
-    // const products = result.data;
-
-    // return { props: { errorCode, products } };
-
     let products: ProductArray;
     try {
         const { data } = await getAllProducts();

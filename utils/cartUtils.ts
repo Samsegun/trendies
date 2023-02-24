@@ -61,5 +61,7 @@ export const checkAndSetCartToDb = async (
                 cart: [...cartFromLocalStorage],
             });
         }
-    } catch (error) {}
+    } catch (error) {
+        toast.error("sorry an occured!");
+    }
 };
