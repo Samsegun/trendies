@@ -45,26 +45,26 @@ const Header = ({ handleModal, cartModal, signInModal }: Props) => {
         signOut(auth);
     };
 
-    const signInWithGoogle = async () => {
-        try {
-            await getRedirectResult(auth);
-        } catch (error) {
-            toast.error("Log-In error!. Please try again");
-        }
-    };
+    // const signInWithGoogle = async () => {
+    //     try {
+    //         await getRedirectResult(auth);
+    //     } catch (error) {
+    //         toast.error("Log-In error!. Please try again");
+    //     }
+    // };
 
     useEffect(() => {
         addTotals();
 
-        signInWithGoogle();
+        // signInWithGoogle();
 
-        onAuthStateChanged(auth, user => {
-            if (user) {
-                setUser(user);
-            } else {
-                setUser(user);
-            }
-        });
+        // onAuthStateChanged(auth, user => {
+        //     if (user) {
+        //         setUser(user);
+        //     } else {
+        //         setUser(user);
+        //     }
+        // });
     }, [cart]);
 
     return (

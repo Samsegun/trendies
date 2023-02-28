@@ -17,6 +17,7 @@ import {
 } from "firebase/auth";
 import { useRouter } from "next/router";
 import { initialize } from "@/firebase";
+import { useCartStore } from "@/store/cart";
 import { FormGroup, Label } from "@/components/UI/formComponents";
 import Container from "@/components/UI/container";
 
@@ -28,6 +29,7 @@ export type Inputs = {
 const Login = () => {
     const [isLogin, setIsLogin] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
+    const { setUser } = useCartStore();
     const {
         register,
         handleSubmit,
@@ -38,11 +40,13 @@ const Login = () => {
     const { auth } = initialize();
 
     useEffect(() => {
+        console.log("logged in");
+
         onAuthStateChanged(auth, user => {
             const newUser: any = user;
             if (user) {
                 Cookies.set("accessToken", newUser.accessToken);
-                toast.success("Redirecting....");
+                setUser(user);
                 router.push("/");
             }
         });
@@ -50,8 +54,18 @@ const Login = () => {
         return () => setIsLoading(false);
     }, []);
 
-    const signInGoogle = () => {
-        signInWithRedirect(auth, new GoogleAuthProvider());
+    const signInGoogle = async () => {
+        await signInWithRedirect(auth, new GoogleAuthProvider());
+        return;
+    };
+
+    //Checks for provider login result, then navigates
+    const getRedirect = async () => {
+        const result = await getRedirectResult(auth);
+        if (result) {
+            toast.success("redirecting...");
+            router.push("/");
+        }
     };
 
     const onSubmit: SubmitHandler<Inputs> = data => {
@@ -77,6 +91,8 @@ const Login = () => {
             );
         }
     };
+
+    getRedirect();
 
     return (
         <Container>

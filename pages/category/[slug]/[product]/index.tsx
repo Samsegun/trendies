@@ -33,13 +33,6 @@ type Props = {
     };
 };
 
-interface CartType {
-    id: number;
-    name: string;
-    qty: number;
-    price: number;
-}
-
 const ProductPage: NextPageWithLayout<Props> = ({ product }) => {
     const [cartItemQty, setCartItemQty] = useState(1);
     const [loggedinUser, setLoggedinUser] = useState<any>();

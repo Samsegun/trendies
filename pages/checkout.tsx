@@ -23,7 +23,7 @@ export type Inputs = {
 
 const Checkout: NextPageWithLayout = () => {
     const { back } = useRouter();
-    const { cart } = useCartStore();
+    const { cart, user } = useCartStore();
 
     const {
         register,
