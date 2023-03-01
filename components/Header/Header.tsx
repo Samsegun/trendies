@@ -38,6 +38,10 @@ const Header = ({ handleModal, cartModal, signInModal }: Props) => {
     };
 
     const handleLogOut = () => {
+        if (localStorage.getItem("goggleLogin")) {
+            localStorage.removeItem("goggleLogin");
+        }
+
         Cookies.remove("accessToken");
         localStorage.removeItem("cart");
         setToCart([]);
