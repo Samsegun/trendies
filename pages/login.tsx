@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Cookies from "js-cookie";
-import Link from "next/link";
 import { toast } from "react-toastify";
 import {
     createUserWithEmailAndPassword,

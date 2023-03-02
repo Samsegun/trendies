@@ -2,24 +2,6 @@ import Image from "next/image";
 import { useCartStore } from "@/store/cart";
 import Link from "next/link";
 
-// type Props = {
-//     user:
-//          {
-//               email?: string | null | undefined;
-//               email_verified: boolean;
-//               name: string;
-//               nickname: string;
-//               picture: string;
-//               // sid: string;
-//               sub: string;
-//               updated_at: string;
-//           }
-//         | undefined;
-// };
-// type Props = {
-//     email: string | null | undefined;
-// };
-
 const CartModal = () => {
     const { cart, totals, removeCartItem, resetCart } = useCartStore(
         state => state

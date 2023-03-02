@@ -7,7 +7,7 @@ import { NextPageWithLayout } from "@/pages/_app";
 import Layout from "@/components/layout";
 import Container from "@/components/UI/container";
 import { ProductArray } from "@/types/productType";
-import { getAllCategories, getSingleCategory } from "@/utils/ApiRequets";
+import { getSingleCategory } from "@/utils/ApiRequets";
 
 type Props = {
     selectedCategory: ProductArray;
