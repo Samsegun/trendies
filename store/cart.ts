@@ -37,10 +37,6 @@ interface newCartState {
     image: string;
 }
 
-// const storageCart = localStorage.getItem("cart")
-//     ? JSON.parse(localStorage.getItem("cart")!)
-//     : null;
-
 export const useCartStore = create<CartState>()(set => {
     // get collection from firestore
     const { fireStore, auth } = initialize();
@@ -165,7 +161,7 @@ export const useCartStore = create<CartState>()(set => {
                 localStorage.removeItem("cart");
 
                 // remove from database if user is logged in
-                if (Object.keys(state.user).length) {
+                if (state.user) {
                     const userCart = doc(cartCol, state.user.uid);
 
                     setDoc(userCart, {
