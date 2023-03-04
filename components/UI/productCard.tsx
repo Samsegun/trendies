@@ -78,18 +78,16 @@ const ProductCard: FC<{ products: ProductArray }> = ({ products }) => {
                                 sizes='(max-width: 768px) 100%,
                                         (max-width: 1280px) 100%,
                                              100%'
-                                // width={500}
-                                // height={500}
                             />
 
-                            <button
+                            {/* <button
                                 type='button'
                                 className={
                                     "absolute top-[10%] right-[10%] p-[0.3rem] bg-[#000000ba] rounded-full w-8 " +
                                     styles["cart-btn"]
                                 }>
                                 <Image src={wishIcon} alt='add to wish list' />
-                            </button>
+                            </button> */}
 
                             <AddToCartBtn />
                         </div>

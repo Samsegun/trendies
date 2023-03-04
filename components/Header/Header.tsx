@@ -178,11 +178,6 @@ const Header = ({ handleModal, cartModal, signInModal }: Props) => {
                                             onClick={handleLogin}>
                                             login
                                         </button>
-                                        <button
-                                            className='bg-[#fa6d6d] hover:bg-[#fd5757] text-white uppercase px-4 py-2 w-full rounded-2xl'
-                                            onClick={handleLogin}>
-                                            sign up
-                                        </button>{" "}
                                     </>
                                 )}
 
