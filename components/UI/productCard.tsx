@@ -1,5 +1,8 @@
 import Image from "next/image";
 import { FC, ReactNode, useEffect, useState } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { initialize } from "@/firebase";
+import { collection, doc, setDoc } from "firebase/firestore";
 import styles from "../../styles/FeaturedProducts.module.css";
 import starIcon from "../../public/assets/star-filled.svg";
 import wishIcon from "../../public/assets/wishListIcon.svg";
@@ -66,11 +69,57 @@ const CardWrapper = ({ children }: Props) => {
 const ProductCard: FC<{ products: ProductArray }> = ({ products }) => {
     const { addToCart, cart, removeCartItem } = useCartStore(state => state);
     const [inCart, setIncart] = useState(false);
+    const [loggedinUser, setLoggedinUser] = useState<any>();
+
+    // get collection from firestore
+    const { fireStore, auth } = initialize();
+    const cartCol = collection(fireStore, "cart");
+
+    useEffect(() => {
+        onAuthStateChanged(auth, user => {
+            if (user) {
+                setLoggedinUser(user);
+            } else {
+                setLoggedinUser(null);
+            }
+        });
+    }, []);
 
     const productInCart = (id: number) => {
         const itemInCart = cart.find(item => item.id === id);
-
         return itemInCart;
+    };
+
+    const addToCartAction = (
+        id: number,
+        name: string,
+        qty: number,
+        price: number,
+        image: string
+    ) => {
+        addToCart(id, name, qty, price, image);
+
+        // set to database
+        if (loggedinUser) {
+            const singleCart = doc(cartCol, loggedinUser.uid);
+
+            setDoc(
+                singleCart,
+                {
+                    cart: [
+                        ...cart,
+                        {
+                            id,
+                            name,
+                            qty,
+                            price,
+                            image,
+                        },
+                    ],
+                },
+                { merge: true }
+            );
+        }
     };
 
     const cartAction = (
@@ -84,7 +133,7 @@ const ProductCard: FC<{ products: ProductArray }> = ({ products }) => {
             return removeCartItem(id);
         }
 
-        return addToCart(id, name, qty, price, image);
+        return addToCartAction(id, name, qty, price, image);
     };
 
     return (
