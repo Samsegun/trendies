@@ -63,73 +63,12 @@ const CardWrapper = ({ children }: Props) => {
     );
 };
 
-export const AddToCartBtn = ({
-    addToCart,
-    product,
-    cart,
-    removeCartItem,
-}: AddToCart) => {
-    const [inCart, setIncart] = useState(false);
-    const { id, title, price, image } = product;
-
-    useEffect(() => {
-        // find item in cart
-        const itemInCart = cart.find(item => item.id === product.id);
-
-        setIncart(itemInCart ? true : false);
-    }, [cart]);
-
-    const cartAction = (
-        id: number,
-        name: string,
-        qty: number,
-        price: number,
-        image: string
-    ) => {
-        if (inCart) {
-            return removeCartItem(id);
-        }
-
-        return addToCart(id, name, qty, price, image);
-    };
-
-    return (
-        <button
-            type='button'
-            className={
-                "absolute bottom-0 flex justify-center items-center w-full py-4 text-white text-xs uppercase bg-[#000000ba] " +
-                styles["cart-btn"]
-            }
-            onClick={() => cartAction(id, title, 1, price, image)}>
-            <span className='inline-block p-[0.3rem] w-8 mr-1'>
-                <Image src={addIcon} alt='' />
-            </span>
-
-            <span>{inCart ? "remove from cart" : "add to cart"}</span>
-        </button>
-    );
-};
-
 const ProductCard: FC<{ products: ProductArray }> = ({ products }) => {
     const { addToCart, cart, removeCartItem } = useCartStore(state => state);
     const [inCart, setIncart] = useState(false);
-    // const { id, title, price, image } = product;
-
-    // useEffect(() => {
-    // find item in cart
-    // const itemInCart = cart.find(item => item.id === product.id);
-
-    // setIncart(itemInCart ? true : false);
-    // }, [cart]);
 
     const productInCart = (id: number) => {
         const itemInCart = cart.find(item => item.id === id);
-
-        // if (itemInCart) {
-        //     setIncart(true);
-        // } else {
-        //     setIncart(false);
-        // }
 
         return itemInCart;
     };
@@ -174,13 +113,6 @@ const ProductCard: FC<{ products: ProductArray }> = ({ products }) => {
                                 }>
                                 <Image src={wishIcon} alt='add to wish list' />
                             </button> */}
-
-                            {/* <AddToCartBtn
-                                addToCart={addToCart}
-                                product={product}
-                                cart={cart}
-                                removeCartItem={removeCartItem}
-                            /> */}
 
                             <button
                                 type='button'

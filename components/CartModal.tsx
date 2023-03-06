@@ -1,11 +1,17 @@
 import Image from "next/image";
 import { useCartStore } from "@/store/cart";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const CartModal = () => {
+    const { push } = useRouter();
     const { cart, totals, removeCartItem, resetCart } = useCartStore(
         state => state
     );
+
+    const navigate = (id: number) => {
+        push(`/category/jewelery/${id}`);
+    };
 
     return (
         <section
@@ -23,9 +29,11 @@ const CartModal = () => {
 
             {cart.map((item, idx) => {
                 return (
-                    <div key={idx}>
+                    <div key={idx} className=''>
                         <div className='flex items-center justify-between mt-8 mb-6'>
-                            <div className='flex items-center'>
+                            <div
+                                className='flex items-center cursor-pointer hover:text-slate-600'
+                                onClick={() => navigate(item.id)}>
                                 <div className='relative w-[70px] h-[60px]'>
                                     <Image
                                         src={item.image}
@@ -47,7 +55,7 @@ const CartModal = () => {
 
                             <button
                                 onClick={removeCartItem.bind(null, item.id)}
-                                className='text-xs font-semibold text-red-800 opacity-70'>
+                                className='text-xs font-semibold text-red-800 cursor-pointer opacity-70 hover:scale-110'>
                                 X
                             </button>
                         </div>

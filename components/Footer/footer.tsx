@@ -3,6 +3,7 @@ import fbIcon from "../../public/assets/fb.svg";
 import instaIcon from "../../public/assets/insta.svg";
 import twitterIcon from "../../public/assets/twitter.svg";
 import Image from "next/image";
+import NavLink from "../UI/Navlink";
 
 const Footer = () => {
     return (
@@ -15,11 +16,33 @@ const Footer = () => {
                         </h2>
 
                         <ul className='flex flex-col gap-4 uppercase md:flex-row'>
-                            <li>home</li>
-                            <li>mens</li>
-                            <li>womens</li>
-                            <li>jewelry</li>
-                            <li>electronics</li>
+                            <li className='hover:text-[#e33f3f] cursor-pointer transition-all duration-300'>
+                                <NavLink path='/' children='home' />
+                            </li>
+                            <li className='hover:text-[#e33f3f] cursor-pointer transition-all duration-300'>
+                                <NavLink
+                                    path='/category/mens'
+                                    children='mens'
+                                />
+                            </li>
+                            <li className='hover:text-[#e33f3f] cursor-pointer transition-all duration-300'>
+                                <NavLink
+                                    path='/category/womens'
+                                    children='womens'
+                                />
+                            </li>
+                            <li className='hover:text-[#e33f3f] cursor-pointer transition-all duration-300'>
+                                <NavLink
+                                    path='/category/jewelery'
+                                    children='jewelry'
+                                />
+                            </li>
+                            <li className='hover:text-[#e33f3f] cursor-pointer transition-all duration-300'>
+                                <NavLink
+                                    path='/category/electronics'
+                                    children='electronics'
+                                />
+                            </li>
                         </ul>
                     </div>
 
