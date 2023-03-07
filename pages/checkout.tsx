@@ -1,13 +1,15 @@
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { useUser } from "@auth0/nextjs-auth0/client";
+import { ReactElement, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { onAuthStateChanged } from "firebase/auth";
+import { initialize } from "@/firebase";
 import { toast } from "react-toastify";
 import FormSummary from "@/components/formSummary";
 import Container from "@/components/UI/container";
 import { FormGroup, Label } from "@/components/UI/formComponents";
 import { useCartStore } from "@/store/cart";
-import { ReactElement, useEffect } from "react";
 import Layout from "@/components/layout";
 import { NextPageWithLayout } from "./_app";
 
@@ -24,6 +26,7 @@ export type Inputs = {
 const Checkout: NextPageWithLayout = () => {
     const { back } = useRouter();
     const { cart, user } = useCartStore();
+    const { fireStore, auth } = initialize();
 
     const {
         register,
@@ -31,6 +34,14 @@ const Checkout: NextPageWithLayout = () => {
         watch,
         formState: { errors },
     } = useForm<Inputs>();
+
+    useEffect(() => {
+        onAuthStateChanged(auth, user => {
+            if (!user) {
+                back();
+            }
+        });
+    }, []);
 
     const onSubmit: SubmitHandler<Inputs> = data => {
         if (!cart.length) {
