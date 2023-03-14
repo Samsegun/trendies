@@ -38,7 +38,9 @@ const IconWrapper = () => {
     );
 };
 
-const Stars = () => {
+const Stars = ({ rating }: { rating: { rate: number; count: number } }) => {
+    console.log(rating);
+
     return (
         <div className='flex justify-center mt-4'>
             <div>
@@ -49,7 +51,9 @@ const Stars = () => {
                 <IconWrapper />
             </div>
 
-            <span className='text-[#b3b3b3] ml-2 text-sm'>(200 Reviews)</span>
+            <span className='text-[#b3b3b3] ml-2 text-sm'>
+                ({rating.count} Reviews)
+            </span>
         </div>
     );
 };
@@ -200,7 +204,7 @@ const ProductCard: FC<{ products: ProductArray }> = ({ products }) => {
                                 ${product.price}
                             </span>
 
-                            <Stars />
+                            <Stars rating={product.rating} />
                         </div>
                     </CardWrapper>
                 );

@@ -35,3 +35,9 @@ export const getTwoRandomProducts = (list: ProductArray, category: string) => {
 
     return noDuplicateProducts;
 };
+
+export const textShortener = (desc: string) => {
+    let shortDesc = desc.substring(0, desc.length / 2) + "...";
+
+    return shortDesc;
+};

@@ -8,6 +8,7 @@ import Layout from "@/components/layout";
 import Container from "@/components/UI/container";
 import { ProductArray } from "@/types/productType";
 import { getSingleCategory } from "@/utils/ApiRequets";
+import ProductDescription from "@/components/ProductDesc";
 
 type Props = {
     selectedCategory: ProductArray;
@@ -72,7 +73,9 @@ const Category: NextPageWithLayout<Props> = ({ selectedCategory }) => {
                                         </h2>
 
                                         <p className='text-sm mb-6 px-2 leading-[25px] xl:w-3/4'>
-                                            {product.description}
+                                            <ProductDescription
+                                                desc={product.description}
+                                            />
                                         </p>
 
                                         <button
