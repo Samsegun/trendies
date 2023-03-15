@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { FC, ReactNode, useEffect, useState } from "react";
+import { Rating } from "react-simple-star-rating";
 import { onAuthStateChanged } from "firebase/auth";
 import { initialize } from "@/firebase";
 import { collection, doc, setDoc } from "firebase/firestore";
@@ -42,13 +43,76 @@ const Stars = ({ rating }: { rating: { rate: number; count: number } }) => {
     console.log(rating);
 
     return (
-        <div className='flex justify-center mt-4'>
-            <div>
+        <div className='flex flex-col items-center justify-around mt-4 md:flex-row'>
+            <div className='flex justify-around w-full md:w-[60%]'>
+                <Rating readonly={true} initialValue={rating.rate} />
+                {/* <span className='inline-block w-4'>
+                    <svg
+                        // className='w-full scale-50'
+                        xmlns='http://www.w3.org/2000/svg'
+                        height='48'
+                        width='48'>
+                        <path
+                        
+                            fill='#ccc'
+                            d='m11.65 44 3.25-14.05L4 20.5l14.4-1.25L24 6l5.6 13.25L44 20.5l-10.9 9.45L36.35 44 24 36.55Z'
+                        />
+                    </svg>
+                </span>
+                <span className='inline-block w-4'>
+                    <svg
+                        // className='w-full scale-50'
+                        xmlns='http://www.w3.org/2000/svg'
+                        height='48'
+                        width='48'>
+                        <path
+                            fill='#ccc'
+                            d='m11.65 44 3.25-14.05L4 20.5l14.4-1.25L24 6l5.6 13.25L44 20.5l-10.9 9.45L36.35 44 24 36.55Z'
+                        />
+                    </svg>
+                </span>
+                <span className='inline-block w-4'>
+                    <svg
+                        // className='w-full scale-50'
+                        xmlns='http://www.w3.org/2000/svg'
+                        height='48'
+                        width='48'>
+                        <path
+                            fill='#ccc'
+                            d='m11.65 44 3.25-14.05L4 20.5l14.4-1.25L24 6l5.6 13.25L44 20.5l-10.9 9.45L36.35 44 24 36.55Z'
+                        />
+                    </svg>
+                </span>
+                <span className='inline-block w-4'>
+                    <svg
+                        // className='w-full scale-50'
+                        xmlns='http://www.w3.org/2000/svg'
+                        height='48'
+                        width='48'>
+                        <path
+                            fill='#ccc'
+                            d='m11.65 44 3.25-14.05L4 20.5l14.4-1.25L24 6l5.6 13.25L44 20.5l-10.9 9.45L36.35 44 24 36.55Z'
+                        />
+                    </svg>
+                </span>
+                <span className='inline-block w-4'>
+                    <svg
+                        // className='w-full scale-50'
+                        xmlns='http://www.w3.org/2000/svg'
+                        height='48'
+                        width='48'>
+                        <path
+                            fill='#ccc'
+                            d='m11.65 44 3.25-14.05L4 20.5l14.4-1.25L24 6l5.6 13.25L44 20.5l-10.9 9.45L36.35 44 24 36.55Z'
+                        />
+                    </svg>
+                </span> */}
+
+                {/* <IconWrapper />
                 <IconWrapper />
                 <IconWrapper />
                 <IconWrapper />
-                <IconWrapper />
-                <IconWrapper />
+                <IconWrapper /> */}
             </div>
 
             <span className='text-[#b3b3b3] ml-2 text-sm'>
@@ -204,7 +268,19 @@ const ProductCard: FC<{ products: ProductArray }> = ({ products }) => {
                                 ${product.price}
                             </span>
 
-                            <Stars rating={product.rating} />
+                            {/* <div
+                                style={{
+                                    direction: "ltr",
+                                    fontFamily: "sans-serif",
+                                    touchAction: "none",
+                                    display: "flex",
+                                }}> */}
+                            <Rating
+                                readonly
+                                initialValue={product.rating.rate}
+                            />
+                            {/* </div> */}
+                            {/* <Stars rating={product.rating} /> */}
                         </div>
                     </CardWrapper>
                 );

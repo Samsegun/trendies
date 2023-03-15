@@ -12,6 +12,7 @@ import Highlights from "@/components/Highlights/highlights";
 import FeaturedProducts from "@/components/FeaturedProducts/FeaturedProducts";
 import About from "@/components/About/about";
 import Layout from "@/components/layout";
+import { Rating } from "react-simple-star-rating";
 
 const Home: NextPageWithLayout<{ products: ProductArray }> = ({ products }) => {
     const { setNewParams } = useContext(ParamsContext);
@@ -46,8 +47,16 @@ const Home: NextPageWithLayout<{ products: ProductArray }> = ({ products }) => {
                     <BannerSection />
                 </div>
             </Container>
-
             <Highlights />
+
+            {/* <div
+                style={{
+                    direction: "ltr",
+                    fontFamily: "sans-serif",
+                    touchAction: "none",
+                }}> */}
+            <Rating readonly iconsCount={5} initialValue={3} size={20} />
+            {/* </div> */}
 
             <FeaturedProducts products={products} />
 
