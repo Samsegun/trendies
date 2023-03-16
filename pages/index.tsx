@@ -49,15 +49,6 @@ const Home: NextPageWithLayout<{ products: ProductArray }> = ({ products }) => {
             </Container>
             <Highlights />
 
-            {/* <div
-                style={{
-                    direction: "ltr",
-                    fontFamily: "sans-serif",
-                    touchAction: "none",
-                }}> */}
-            <Rating readonly iconsCount={5} initialValue={3} size={20} />
-            {/* </div> */}
-
             <FeaturedProducts products={products} />
 
             <About />

@@ -26,3 +26,7 @@ body {
   background:  #e33f3f !important;
   height: 4px !important;
 }
+
+.star-rating svg {
+  scale: 0.5;
+}
