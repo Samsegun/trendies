@@ -41,14 +41,15 @@ const IconWrapper = () => {
 
 const Stars = ({ rating }: { rating: { rate: number; count: number } }) => {
     console.log(rating);
+    const rates = [100, 100, 100, 100, 1];
+
+    const starRates = () => {};
 
     return (
-        <div
-            className='flex flex-col items-center justify-around mt-4 md:justify-center md:gap-4 md:flex-row'>
+        <div className='flex flex-col items-center justify-around mt-4 md:justify-center md:gap-4 md:flex-row'>
             <div className='flex justify-center w-full md:w-auto star-rating'>
                 <span className='inline-block w-4 '>
                     <svg
-                        // className='w-full scale-50'
                         xmlns='http://www.w3.org/2000/svg'
                         height='48'
                         width='48'>
@@ -60,7 +61,6 @@ const Stars = ({ rating }: { rating: { rate: number; count: number } }) => {
                 </span>
                 <span className='inline-block w-4'>
                     <svg
-                        // className='w-full scale-50'
                         xmlns='http://www.w3.org/2000/svg'
                         height='48'
                         width='48'>
@@ -72,7 +72,6 @@ const Stars = ({ rating }: { rating: { rate: number; count: number } }) => {
                 </span>
                 <span className='inline-block w-4'>
                     <svg
-                        // className='w-full scale-50'
                         xmlns='http://www.w3.org/2000/svg'
                         height='48'
                         width='48'>
@@ -84,7 +83,6 @@ const Stars = ({ rating }: { rating: { rate: number; count: number } }) => {
                 </span>
                 <span className='inline-block w-4'>
                     <svg
-                        // className='w-full scale-50'
                         xmlns='http://www.w3.org/2000/svg'
                         height='48'
                         width='48'>
@@ -96,7 +94,6 @@ const Stars = ({ rating }: { rating: { rate: number; count: number } }) => {
                 </span>
                 <span className='inline-block w-4'>
                     <svg
-                        // className='w-full scale-50'
                         xmlns='http://www.w3.org/2000/svg'
                         height='48'
                         width='48'>
