@@ -31,85 +31,72 @@ type AddToCart = {
     removeCartItem: (id: number) => void;
 };
 
-const IconWrapper = () => {
+export const StarRates = ({ rate }: { rate: number }) => {
+    let counts = rate;
+    const rates = [0, 0, 0, 0, 0];
+
+    const appliedRates = rates.map(rate => {
+        if (counts > 1) {
+            counts = counts - 1;
+            return rate + 100;
+        } else if (counts === 0) {
+            return 0;
+        } else {
+            let a = counts;
+            counts = counts - counts;
+
+            return (rate + a * 100).toFixed();
+        }
+    });
+
+    console.log(appliedRates);
+
     return (
-        <span className='inline-block w-4'>
-            <Image src={starIcon} alt='' />
-        </span>
+        <div className='flex justify-center w-full md:w-auto star-rating'>
+            {appliedRates.map((appliedRate: number | string, idx: number) => {
+                return (
+                    <span key={idx} className='inline-block w-4 '>
+                        <svg
+                            key={idx}
+                            xmlns='http://www.w3.org/2000/svg'
+                            height='48'
+                            width='48'>
+                            <defs>
+                                <linearGradient
+                                    id={"grad" + idx}
+                                    x1='0%'
+                                    y1='0%'
+                                    x2='100%'
+                                    y2='0%'>
+                                    <stop
+                                        offset={appliedRate + "%"}
+                                        stopColor={"rgb(255,255,0)"}
+                                        stopOpacity={1}
+                                    />
+
+                                    <stop
+                                        // offset='100%'
+                                        stopColor={"rgb(204, 204, 204)"}
+                                        stopOpacity={1}
+                                    />
+                                </linearGradient>
+                            </defs>
+                            <path
+                                fill={`url(#grad${idx.toString()})`}
+                                d='m11.65 44 3.25-14.05L4 20.5l14.4-1.25L24 6l5.6 13.25L44 20.5l-10.9 9.45L36.35 44 24 36.55Z'
+                            />
+                        </svg>
+                    </span>
+                );
+            })}
+        </div>
     );
 };
 
 const Stars = ({ rating }: { rating: { rate: number; count: number } }) => {
-    console.log(rating);
-    const rates = [100, 100, 100, 100, 1];
-
-    const starRates = () => {};
-
     return (
         <div className='flex flex-col items-center justify-around mt-4 md:justify-center md:gap-4 md:flex-row'>
-            <div className='flex justify-center w-full md:w-auto star-rating'>
-                <span className='inline-block w-4 '>
-                    <svg
-                        xmlns='http://www.w3.org/2000/svg'
-                        height='48'
-                        width='48'>
-                        <path
-                            fill='#ccc'
-                            d='m11.65 44 3.25-14.05L4 20.5l14.4-1.25L24 6l5.6 13.25L44 20.5l-10.9 9.45L36.35 44 24 36.55Z'
-                        />
-                    </svg>
-                </span>
-                <span className='inline-block w-4'>
-                    <svg
-                        xmlns='http://www.w3.org/2000/svg'
-                        height='48'
-                        width='48'>
-                        <path
-                            fill='#ccc'
-                            d='m11.65 44 3.25-14.05L4 20.5l14.4-1.25L24 6l5.6 13.25L44 20.5l-10.9 9.45L36.35 44 24 36.55Z'
-                        />
-                    </svg>
-                </span>
-                <span className='inline-block w-4'>
-                    <svg
-                        xmlns='http://www.w3.org/2000/svg'
-                        height='48'
-                        width='48'>
-                        <path
-                            fill='#ccc'
-                            d='m11.65 44 3.25-14.05L4 20.5l14.4-1.25L24 6l5.6 13.25L44 20.5l-10.9 9.45L36.35 44 24 36.55Z'
-                        />
-                    </svg>
-                </span>
-                <span className='inline-block w-4'>
-                    <svg
-                        xmlns='http://www.w3.org/2000/svg'
-                        height='48'
-                        width='48'>
-                        <path
-                            fill='#ccc'
-                            d='m11.65 44 3.25-14.05L4 20.5l14.4-1.25L24 6l5.6 13.25L44 20.5l-10.9 9.45L36.35 44 24 36.55Z'
-                        />
-                    </svg>
-                </span>
-                <span className='inline-block w-4'>
-                    <svg
-                        xmlns='http://www.w3.org/2000/svg'
-                        height='48'
-                        width='48'>
-                        <path
-                            fill='#ccc'
-                            d='m11.65 44 3.25-14.05L4 20.5l14.4-1.25L24 6l5.6 13.25L44 20.5l-10.9 9.45L36.35 44 24 36.55Z'
-                        />
-                    </svg>
-                </span>
-
-                {/* <IconWrapper />
-                <IconWrapper />
-                <IconWrapper />
-                <IconWrapper />
-                <IconWrapper /> */}
-            </div>
+            <StarRates rate={rating.rate} />
 
             <span className='text-[#b3b3b3] ml-2 text-sm block'>
                 ({rating.count} Reviews)
@@ -264,10 +251,6 @@ const ProductCard: FC<{ products: ProductArray }> = ({ products }) => {
                                 ${product.price}
                             </span>
 
-                            {/* <Rating
-                                readonly
-                                initialValue={product.rating.rate}
-                            /> */}
                             <Stars rating={product.rating} />
                         </div>
                     </CardWrapper>
