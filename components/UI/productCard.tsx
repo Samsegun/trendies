@@ -38,57 +38,63 @@ export const StarRates = ({ rate }: { rate: number }) => {
     const appliedRates = rates.map(rate => {
         if (counts > 1) {
             counts = counts - 1;
-            return rate + 100;
+            return { value: rate + 100, id: crypto.randomUUID() };
         } else if (counts === 0) {
-            return 0;
+            return { value: 0, id: crypto.randomUUID() };
         } else {
             let a = counts;
             counts = counts - counts;
 
-            return (rate + a * 100).toFixed();
+            return {
+                value: (rate + a * 100).toFixed(),
+                id: crypto.randomUUID(),
+            };
         }
     });
 
-    console.log(appliedRates);
-
     return (
         <div className='flex justify-center w-full md:w-auto star-rating'>
-            {appliedRates.map((appliedRate: number | string, idx: number) => {
-                return (
-                    <span key={idx} className='inline-block w-4 '>
-                        <svg
-                            key={idx}
-                            xmlns='http://www.w3.org/2000/svg'
-                            height='48'
-                            width='48'>
-                            <defs>
-                                <linearGradient
-                                    id={"grad" + idx}
-                                    x1='0%'
-                                    y1='0%'
-                                    x2='100%'
-                                    y2='0%'>
-                                    <stop
-                                        offset={appliedRate + "%"}
-                                        stopColor={"rgb(255,255,0)"}
-                                        stopOpacity={1}
-                                    />
+            {appliedRates.map(
+                (
+                    appliedRate: { value: number | string; id: string },
+                    idx: number
+                ) => {
+                    return (
+                        <span key={idx} className='inline-block w-4 '>
+                            <svg
+                                key={idx}
+                                xmlns='http://www.w3.org/2000/svg'
+                                height='48'
+                                width='48'>
+                                <defs>
+                                    <linearGradient
+                                        id={appliedRate.id}
+                                        x1='0%'
+                                        y1='0%'
+                                        x2='100%'
+                                        y2='0%'>
+                                        <stop
+                                            offset={appliedRate.value + "%"}
+                                            stopColor={"rgb(255,255,0)"}
+                                            stopOpacity={1}
+                                        />
 
-                                    <stop
-                                        // offset='100%'
-                                        stopColor={"rgb(204, 204, 204)"}
-                                        stopOpacity={1}
-                                    />
-                                </linearGradient>
-                            </defs>
-                            <path
-                                fill={`url(#grad${idx.toString()})`}
-                                d='m11.65 44 3.25-14.05L4 20.5l14.4-1.25L24 6l5.6 13.25L44 20.5l-10.9 9.45L36.35 44 24 36.55Z'
-                            />
-                        </svg>
-                    </span>
-                );
-            })}
+                                        <stop
+                                            // offset='100%'
+                                            stopColor={"rgb(204, 204, 204)"}
+                                            stopOpacity={1}
+                                        />
+                                    </linearGradient>
+                                </defs>
+                                <path
+                                    fill={`url(#${appliedRate.id})`}
+                                    d='m11.65 44 3.25-14.05L4 20.5l14.4-1.25L24 6l5.6 13.25L44 20.5l-10.9 9.45L36.35 44 24 36.55Z'
+                                />
+                            </svg>
+                        </span>
+                    );
+                }
+            )}
         </div>
     );
 };
