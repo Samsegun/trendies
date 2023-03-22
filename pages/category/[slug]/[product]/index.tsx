@@ -226,6 +226,7 @@ ProductPage.getLayout = function getLayout(page: ReactElement) {
     return <Layout>{page}</Layout>;
 };
 
+// to be added when deployed to production
 // export async function getServerSideProps(
 //     context: GetServerSidePropsContext<{ product: string }>
 // ) {
