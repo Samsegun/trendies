@@ -49,6 +49,7 @@ const Home: NextPageWithLayout<{ products: ProductArray }> = ({ products }) => {
                     <BannerSection />
                 </div>
             </Container>
+
             <Highlights />
 
             <FeaturedProducts products={products} />
