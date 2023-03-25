@@ -15,4 +15,6 @@ export default function middleware(req: NextRequest) {
     // if (verify) {
     // return NextResponse.redirect(url);
     // }
+
+    // console.log("hey!")
 }
