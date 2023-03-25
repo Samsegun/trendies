@@ -121,6 +121,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 cartModal={modal.cartModal}
                 signInModal={modal.signIn}
             />
+
             {/* overlay */}
             {modal.overLay && (
                 <div

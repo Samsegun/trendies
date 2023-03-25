@@ -67,7 +67,7 @@ const Checkout: NextPageWithLayout = () => {
                     <div className='items-start gap-8 xl:flex'>
                         <div className='bg-[#fff] h-auto rounded-lg p-4 basis-3/4'>
                             <h1 className='uppercase font-bold tracking-[1px] mb-4'>
-                                checkout{" "}
+                                checkout
                             </h1>
 
                             {/* billing details */}
