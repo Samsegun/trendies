@@ -12,9 +12,5 @@ export default function middleware(req: NextRequest) {
     //     return NextResponse.redirect("http://localhost:3000/");
     // }
 
-    // if (verify) {
-    // return NextResponse.redirect(url);
-    // }
-
-    // console.log("hey!")
+    // console.log("kill")
 }
