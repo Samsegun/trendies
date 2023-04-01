@@ -105,7 +105,6 @@ const Login = () => {
                     <>
                         <div className='fixed top-0 bottom-0 left-0 right-0 z-30 bg-[rgba(0,0,0,0.4)] '></div>
                         <div className='absolute z-40 top-[40%] left-1/2'>
-                            {" "}
                             <svg
                                 width='60px'
                                 height='60px'
