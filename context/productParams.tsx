@@ -20,7 +20,7 @@ export const ParamsContext = createContext<paramsContextType>(
     paramsContextDefaultValues
 );
 
-export function ParamsProvider({ children }: Props) {
+function ParamsProvider({ children }: Props) {
     const [params, setParams] = useState<ParamsArray>([]);
 
     const setNewParams = (newParams: ParamsArray) => {

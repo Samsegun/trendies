@@ -1,4 +1,4 @@
-import { ReactElement, useEffect } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Layout from "@/components/layout";
@@ -23,9 +23,18 @@ export type Inputs = {
 };
 
 const Checkout: NextPageWithLayout = () => {
+    const [formData, setFormData] = useState<Inputs>({
+        name: "",
+        email: "",
+        phone: "",
+        address: "",
+        zip: "",
+        city: "",
+        country: "",
+    });
     const { back } = useRouter();
-    const { cart, user } = useCartStore();
-    const { fireStore, auth } = initialize();
+    const { cart } = useCartStore();
+    const { auth } = initialize();
 
     const {
         register,
@@ -47,7 +56,7 @@ const Checkout: NextPageWithLayout = () => {
             toast.error("Can't checkout with empty cart!");
             return;
         }
-        console.log({ ...data });
+        setFormData(data);
     };
 
     return (
@@ -275,7 +284,7 @@ const Checkout: NextPageWithLayout = () => {
                             </div>
                         </div>
 
-                        <FormSummary />
+                        <FormSummary formData={formData} />
                     </div>
                 </form>
             </div>
@@ -286,7 +295,5 @@ const Checkout: NextPageWithLayout = () => {
 Checkout.getLayout = function getLayout(page: ReactElement) {
     return <Layout>{page}</Layout>;
 };
-
-// export const getServerSideProps = withPageAuthRequired();
 
 export default Checkout;

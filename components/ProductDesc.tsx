@@ -16,7 +16,7 @@ const ProductDescription = ({ desc }: Props) => {
                 <button
                     onClick={() => setShowMore(false)}
                     className='text-xs text-[#f44b4b] font-bold'>
-                    (Show less)
+                    (less)
                 </button>
             );
         }
@@ -25,7 +25,7 @@ const ProductDescription = ({ desc }: Props) => {
             <button
                 onClick={() => setShowMore(true)}
                 className='text-xs text-[#f44b4b] font-bold'>
-                Show more
+                more
             </button>
         );
     };

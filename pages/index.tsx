@@ -12,8 +12,6 @@ import Highlights from "@/components/Highlights/highlights";
 import FeaturedProducts from "@/components/FeaturedProducts/FeaturedProducts";
 import About from "@/components/About/about";
 import Layout from "@/components/layout";
-import { Rating } from "react-simple-star-rating";
-import { StarRates } from "@/components/UI/productCard";
 
 const Home: NextPageWithLayout<{ products: ProductArray }> = ({ products }) => {
     const { setNewParams } = useContext(ParamsContext);
@@ -27,7 +25,6 @@ const Home: NextPageWithLayout<{ products: ProductArray }> = ({ products }) => {
     if (products.length === 0) {
         return <Error statusCode={503} />;
     }
-    let a = 2;
 
     return (
         <>

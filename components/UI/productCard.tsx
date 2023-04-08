@@ -52,49 +52,56 @@ export const StarRates = ({ rate }: { rate: number }) => {
         }
     });
 
-    return (
-        <div className='flex justify-center w-full md:w-auto star-rating'>
-            {appliedRates.map(
-                (
-                    appliedRate: { value: number | string; id: string },
-                    idx: number
-                ) => {
-                    return (
-                        <span key={idx} className='inline-block w-4 '>
-                            <svg
-                                key={idx}
-                                xmlns='http://www.w3.org/2000/svg'
-                                height='48'
-                                width='48'>
-                                <defs>
-                                    <linearGradient
-                                        id={appliedRate.id}
-                                        x1='0%'
-                                        y1='0%'
-                                        x2='100%'
-                                        y2='0%'>
-                                        <stop
-                                            offset={appliedRate.value + "%"}
-                                            stopColor={"rgb(255,255,0)"}
-                                            stopOpacity={1}
-                                        />
+    console.log(rate);
 
-                                        <stop
-                                            // offset='100%'
-                                            stopColor={"rgb(204, 204, 204)"}
-                                            stopOpacity={1}
-                                        />
-                                    </linearGradient>
-                                </defs>
-                                <path
-                                    fill={`url(#${appliedRate.id})`}
-                                    d='m11.65 44 3.25-14.05L4 20.5l14.4-1.25L24 6l5.6 13.25L44 20.5l-10.9 9.45L36.35 44 24 36.55Z'
-                                />
-                            </svg>
-                        </span>
-                    );
-                }
-            )}
+    return (
+        <div className='flex justify-center'>
+            <span className='text-[#e33f3f] self-center pt-1 text-center font-bold'>
+                {rate}
+            </span>
+
+            <div className='flex justify-center w-full md:w-auto star-rating'>
+                {appliedRates.map(
+                    (
+                        appliedRate: { value: number | string; id: string },
+                        idx: number
+                    ) => {
+                        return (
+                            <span key={idx} className='w-4 mr-1'>
+                                <svg
+                                    key={idx}
+                                    xmlns='http://www.w3.org/2000/svg'
+                                    height='48'
+                                    width='48'>
+                                    <defs>
+                                        <linearGradient
+                                            id={appliedRate.id}
+                                            x1='0%'
+                                            y1='0%'
+                                            x2='100%'
+                                            y2='0%'>
+                                            <stop
+                                                offset={appliedRate.value + "%"}
+                                                stopColor={"rgb(227, 63, 63)"}
+                                                stopOpacity={1}
+                                            />
+
+                                            <stop
+                                                stopColor={"rgb(204, 204, 204)"}
+                                                stopOpacity={1}
+                                            />
+                                        </linearGradient>
+                                    </defs>
+                                    <path
+                                        fill={`url(#${appliedRate.id})`}
+                                        d='m11.65 44 3.25-14.05L4 20.5l14.4-1.25L24 6l5.6 13.25L44 20.5l-10.9 9.45L36.35 44 24 36.55Z'
+                                    />
+                                </svg>
+                            </span>
+                        );
+                    }
+                )}
+            </div>
         </div>
     );
 };
@@ -104,7 +111,7 @@ const Stars = ({ rating }: { rating: { rate: number; count: number } }) => {
         <div className='flex flex-col items-center justify-around mt-4 md:justify-center md:gap-4 md:flex-row'>
             <StarRates rate={rating.rate} />
 
-            <span className='text-[#b3b3b3] ml-2 text-sm block'>
+            <span className='text-[#b3b3b3] md:ml-2 text-sm block'>
                 ({rating.count} Reviews)
             </span>
         </div>
