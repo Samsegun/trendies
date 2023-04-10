@@ -1,10 +1,12 @@
 import Image from "next/image";
-import { FC } from "react";
+import { FC, useContext } from "react";
 import { useCartStore } from "@/store/cart";
 import { PaystackButton } from "react-paystack";
 import { Inputs } from "@/pages/checkout";
+import { ModalContext } from "@/context/ModalCtx";
 
 const FormSummary = ({ formData }: { formData: Inputs }) => {
+    const modal = useContext(ModalContext);
     const { cart, totals } = useCartStore();
 
     // paystack

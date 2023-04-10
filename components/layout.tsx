@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { ModalContext } from "@/context/ModalCtx";
 import { useRouter } from "next/router";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
@@ -21,55 +22,12 @@ NProgress.configure({
 });
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [modal, setModal] = useState({
-        mobileNav: false,
-        cartModal: false,
-        signIn: false,
-        overLay: false,
-    });
+    const { overLay, mobileNav, handleModal } = useContext(ModalContext);
     const { setToCart, cart, setUser, user } = useCartStore(state => state);
     const router = useRouter();
 
     //  get collection from firestore
     const { auth } = initialize();
-
-    const handleModal = (action: string) => {
-        if (action === "close") {
-            setModal({
-                mobileNav: false,
-                cartModal: false,
-                signIn: false,
-                overLay: false,
-            });
-        }
-
-        if (action === "mobileNav") {
-            setModal({
-                mobileNav: true,
-                cartModal: false,
-                signIn: false,
-                overLay: true,
-            });
-        }
-
-        if (action === "cart") {
-            setModal({
-                mobileNav: false,
-                cartModal: !modal.cartModal,
-                signIn: false,
-                overLay: !modal.overLay,
-            });
-        }
-
-        if (action === "signIn") {
-            setModal({
-                mobileNav: false,
-                cartModal: false,
-                signIn: true,
-                overLay: !modal.overLay,
-            });
-        }
-    };
 
     useEffect(() => {
         // get cart from local storage if user is not logged in
@@ -116,14 +74,10 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
     return (
         <div className='relative'>
-            <Header
-                handleModal={handleModal}
-                cartModal={modal.cartModal}
-                signInModal={modal.signIn}
-            />
+            <Header />
 
             {/* backdrop */}
-            {modal.overLay && (
+            {overLay && (
                 <div
                     className='fixed top-0 bottom-0 left-0 right-0 z-30 bg-[rgba(0,0,0,0.4)] '
                     onClick={handleModal.bind(null, "close")}></div>
@@ -134,7 +88,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 <section
                     className={`fixed top-0 left-0 z-40 w-4/5 h-full px-4 py-8
                      text-white bg-black transition-all duration-300 ${
-                         !modal.mobileNav && "-translate-x-full"
+                         !mobileNav && "-translate-x-full"
                      }`}>
                     <div className='relative'>
                         <button
@@ -179,6 +133,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             </div>
 
             <main className='min-h-screen'>{children}</main>
+
             <Footer />
         </div>
     );

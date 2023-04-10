@@ -2,6 +2,7 @@ import { NextPage } from "next";
 import type { AppProps } from "next/app";
 import { ReactElement, ReactNode } from "react";
 import { ToastContainer } from "react-toastify";
+import ModalProvider from "@/context/ModalCtx";
 // import Layout from "@/components/layout";
 // import { UserProvider } from "@auth0/nextjs-auth0/client";
 import "@/styles/globals.css";
@@ -20,10 +21,12 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 
     return (
         // <UserProvider>
-        <>
-            <ToastContainer />
-            {getLayout(<Component {...pageProps} />)}
-        </>
+        <ModalProvider>
+            <>
+                <ToastContainer />
+                {getLayout(<Component {...pageProps} />)}
+            </>
+        </ModalProvider>
         // </UserProvider>
     );
 }

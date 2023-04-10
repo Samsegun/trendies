@@ -28,13 +28,11 @@ export const getCartFromDb = async (
         const docSnap = await getDoc(singleCart);
 
         if (docSnap.exists() && docSnap.data()!.cart) {
-            console.log(docSnap.data()!.cart);
             setToCart(docSnap.data()!.cart);
         } else {
             setToCart([]);
         }
     } catch (error) {
-        console.log(error);
         toast.error("Failed to get cart from store!");
     }
 };

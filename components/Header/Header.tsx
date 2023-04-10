@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { ModalContext } from "@/context/ModalCtx";
 import { initialize } from "../../firebase";
 import { getRedirectResult, onAuthStateChanged, signOut } from "firebase/auth";
-// import { onSnapshot } from "firebase/firestore";
 import Cookies from "js-cookie";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { useCartStore } from "@/store/cart";
@@ -17,16 +17,9 @@ import ItemCount from "../UI/itemsCount";
 import Container from "../UI/container";
 import NavLink from "../UI/Navlink";
 import CartModal from "../CartModal";
-import { toast } from "react-toastify";
 
-type Props = {
-    handleModal: (text: string) => void;
-    cartModal: boolean;
-    signInModal: boolean;
-};
-
-const Header = ({ handleModal, cartModal, signInModal }: Props) => {
-    // const [user, setUser] = useState<any>();
+const Header = () => {
+    const modal = useContext(ModalContext);
     const { cart, totals, addTotals, user, setUser, setToCart } = useCartStore(
         state => state
     );
@@ -49,14 +42,6 @@ const Header = ({ handleModal, cartModal, signInModal }: Props) => {
         signOut(auth);
     };
 
-    // const signInWithGoogle = async () => {
-    //     try {
-    //         await getRedirectResult(auth);
-    //     } catch (error) {
-    //         toast.error("Log-In error!. Please try again");
-    //     }
-    // };
-
     useEffect(() => {
         addTotals();
 
@@ -78,7 +63,7 @@ const Header = ({ handleModal, cartModal, signInModal }: Props) => {
                     <div className='flex items-center justify-between w-11/12 mx-auto xl:w-auto'>
                         <div
                             className='cursor-pointer md:hidden'
-                            onClick={handleModal.bind(null, "mobileNav")}>
+                            onClick={modal.handleModal.bind(null, "mobileNav")}>
                             <Image src={navIcon} alt='menu button' />
                         </div>
 
@@ -124,7 +109,10 @@ const Header = ({ handleModal, cartModal, signInModal }: Props) => {
                                     styles.wishlist +
                                     " relative mr-4 cursor-pointer"
                                 }
-                                onClick={handleModal.bind(null, "signIn")}>
+                                onClick={modal.handleModal.bind(
+                                    null,
+                                    "signIn"
+                                )}>
                                 <Image
                                     // src={accountIcon}
                                     src={
@@ -152,7 +140,7 @@ const Header = ({ handleModal, cartModal, signInModal }: Props) => {
 
                             <button
                                 className='relative cursor-pointer'
-                                onClick={handleModal.bind(null, "cart")}>
+                                onClick={modal.handleModal.bind(null, "cart")}>
                                 <Image src={cartIcon} alt=' cart' />
                                 <ItemCount
                                     position='bottom-4 -right-[14px]'
@@ -162,10 +150,10 @@ const Header = ({ handleModal, cartModal, signInModal }: Props) => {
                         </div>
 
                         {/* cart modal */}
-                        {cartModal && <CartModal />}
+                        {modal.cartModal && <CartModal />}
 
                         {/* signIn modal */}
-                        {signInModal && (
+                        {modal.signIn && (
                             <section
                                 className='absolute right-0 z-40 w-[90%] flex flex-col gap-4
                           max-w-xs bg-white text-black text-center top-12 h-auto p-2 pb-6 xs:p-4 shadow-xl'>
