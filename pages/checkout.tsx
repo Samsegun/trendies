@@ -1,8 +1,9 @@
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useForm, SubmitHandler } from "react-hook-form";
-import Layout from "@/components/layout";
 import { NextPageWithLayout } from "./_app";
+import { ModalContext } from "@/context/ModalCtx";
+import Layout from "@/components/layout";
 import { onAuthStateChanged } from "firebase/auth";
 import { initialize } from "@/firebase";
 import { toast } from "react-toastify";
@@ -11,6 +12,7 @@ import Container from "@/components/UI/container";
 import { FormGroup, Label } from "@/components/UI/formComponents";
 import { useCartStore } from "@/store/cart";
 import { countries } from "@/utils/countries";
+import { PaystackButton } from "react-paystack";
 
 export type Inputs = {
     name: string;
@@ -32,8 +34,10 @@ const Checkout: NextPageWithLayout = () => {
         city: "",
         country: "",
     });
+    const { handleModal, confirmation } = useContext(ModalContext);
+
     const { back } = useRouter();
-    const { cart } = useCartStore();
+    const { cart, totals } = useCartStore();
     const { auth } = initialize();
 
     const {
@@ -51,12 +55,34 @@ const Checkout: NextPageWithLayout = () => {
         });
     }, []);
 
+    // paystack
+    const publicKey = process.env.NEXT_PUBLIC_PAYSTACK_PUB_KEY;
+    const amount = totals.cartTotals * 100;
+    const email = formData.email;
+
+    const onSuccess = (reference: any) => {
+        // Handle successful payments here
+        toast.success(reference.message);
+    };
+
+    const onClose = () => {
+        // Handle cancelled payments here
+        toast.error("Payment Cancelled");
+    };
+
+    const config = {
+        email,
+        amount,
+        publicKey: publicKey!,
+    };
+
     const onSubmit: SubmitHandler<Inputs> = data => {
         if (!cart.length) {
             toast.error("Can't checkout with empty cart!");
             return;
         }
         setFormData(data);
+        handleModal("confirmation");
     };
 
     return (
@@ -284,9 +310,35 @@ const Checkout: NextPageWithLayout = () => {
                             </div>
                         </div>
 
-                        <FormSummary formData={formData} />
+                        <FormSummary confirmation={confirmation} />
                     </div>
                 </form>
+
+                {confirmation && (
+                    <div className='fixed z-40 w-4/5 h-48 max-w-md uppercase -translate-x-1/2 bg-white rounded-lg md:w-1/2 top-1/4 left-1/2'>
+                        <div className='flex flex-col items-center justify-center h-full gap-4 md:flex-row'>
+                            <div
+                                className='w-1/2'
+                                onClick={() => handleModal("close")}>
+                                <PaystackButton
+                                    className='bg-[#cd2c2c] text-white w-full py-4
+             px-12 text-xs uppercase cursor-pointer'
+                                    reference={new Date().getTime().toString()}
+                                    text='make payment'
+                                    onSuccess={onSuccess}
+                                    onClose={onClose}
+                                    {...config}
+                                />
+                            </div>
+
+                            <button
+                                className='bg-[#e97a7a] py-4 px-12 text-xs text-white w-1/5'
+                                onClick={handleModal.bind(null, "close")}>
+                                No
+                            </button>
+                        </div>
+                    </div>
+                )}
             </div>
         </Container>
     );

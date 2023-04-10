@@ -8,6 +8,7 @@ export const ModalContext = createContext({
     mobileNav: false,
     cartModal: false,
     signIn: false,
+    confirmation: false,
     overLay: false,
     handleModal: (action: string) => {},
 });
@@ -17,6 +18,7 @@ function ModalProvider({ children }: Props) {
         mobileNav: false,
         cartModal: false,
         signIn: false,
+        confirmation: false,
         overLay: false,
     });
 
@@ -26,6 +28,7 @@ function ModalProvider({ children }: Props) {
                 mobileNav: false,
                 cartModal: false,
                 signIn: false,
+                confirmation: false,
                 overLay: false,
             });
         }
@@ -35,6 +38,7 @@ function ModalProvider({ children }: Props) {
                 mobileNav: true,
                 cartModal: false,
                 signIn: false,
+                confirmation: false,
                 overLay: true,
             });
         }
@@ -44,6 +48,7 @@ function ModalProvider({ children }: Props) {
                 mobileNav: false,
                 cartModal: !modal.cartModal,
                 signIn: false,
+                confirmation: false,
                 overLay: !modal.overLay,
             });
         }
@@ -53,7 +58,18 @@ function ModalProvider({ children }: Props) {
                 mobileNav: false,
                 cartModal: false,
                 signIn: true,
+                confirmation: false,
                 overLay: !modal.overLay,
+            });
+        }
+
+        if (action === "confirmation") {
+            setModal({
+                mobileNav: false,
+                cartModal: false,
+                signIn: false,
+                confirmation: true,
+                overLay: true,
             });
         }
     };

@@ -1,33 +1,8 @@
 import Image from "next/image";
-import { FC, useContext } from "react";
 import { useCartStore } from "@/store/cart";
-import { PaystackButton } from "react-paystack";
-import { Inputs } from "@/pages/checkout";
-import { ModalContext } from "@/context/ModalCtx";
 
-const FormSummary = ({ formData }: { formData: Inputs }) => {
-    const modal = useContext(ModalContext);
+const FormSummary = ({ confirmation }: { confirmation: boolean }) => {
     const { cart, totals } = useCartStore();
-
-    // paystack
-    const publicKey = process.env.NEXT_PUBLIC_PAYSTACK_PUB_KEY;
-    const amount = totals.cartTotals * 100;
-    const email = formData.email;
-
-    const onSuccess = (reference: any) => {
-        // Handle successful payments here
-        console.log(reference);
-    };
-
-    const onClose = () => {
-        // Handle cancelled payments here
-    };
-
-    const config = {
-        email,
-        amount,
-        publicKey: publicKey!,
-    };
 
     return (
         <section className='bg-[#fff] h-auto rounded-lg p-4 mt-8 xl:mt-0 xl:basis-1/4'>
@@ -97,7 +72,7 @@ const FormSummary = ({ formData }: { formData: Inputs }) => {
                 continue & pay
             </button>
 
-            <PaystackButton
+            {/* <PaystackButton
                 className='bg-[#cd2c2c] text-white w-full py-4
              px-12 text-xs uppercase cursor-pointer'
                 // currency='USD'
@@ -106,7 +81,7 @@ const FormSummary = ({ formData }: { formData: Inputs }) => {
                 onSuccess={onSuccess}
                 onClose={onClose}
                 {...config}
-            />
+            /> */}
         </section>
     );
 };
