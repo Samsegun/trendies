@@ -52,8 +52,6 @@ export const StarRates = ({ rate }: { rate: number }) => {
         }
     });
 
-    console.log(rate);
-
     return (
         <div className='flex justify-center'>
             <span className='text-[#e33f3f] self-center pt-1 text-center font-bold'>
