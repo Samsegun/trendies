@@ -51,10 +51,6 @@ Users can:
 
 ![screenshot](./trendies-screenshot.jpeg)
 
-### Links
-
-<!-- -   Live Site URL: [Netlify](https://samsegun-audiophile.netlify.app/) -->
-
 ### Built with
 
 -   Flexbox
