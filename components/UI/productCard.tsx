@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { FC, ReactNode, useEffect, useState } from "react";
-import { Rating } from "react-simple-star-rating";
 import { onAuthStateChanged } from "firebase/auth";
 import { initialize } from "@/firebase";
 import { collection, doc, setDoc } from "firebase/firestore";
