@@ -1,18 +1,14 @@
+import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Cookies from "js-cookie";
-import { toast } from "react-toastify";
 import {
     createUserWithEmailAndPassword,
-    signInWithRedirect,
     GoogleAuthProvider,
-    linkWithCredential,
-    EmailAuthProvider,
-    linkWithRedirect,
     signInWithEmailAndPassword,
     getRedirectResult,
     onAuthStateChanged,
-    NextOrObserver,
+    signInWithPopup,
 } from "firebase/auth";
 import { useRouter } from "next/router";
 import { initialize } from "@/firebase";
@@ -28,7 +24,7 @@ export type Inputs = {
 const Login = () => {
     const [isLogin, setIsLogin] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
-    const [redirectLoading, setRedirectLoading] = useState(false);
+    // const [redirectLoading, setRedirectLoading] = useState(false);
     const { setUser } = useCartStore();
     const {
         register,
@@ -40,9 +36,9 @@ const Login = () => {
     const { auth } = initialize();
 
     useEffect(() => {
-        if (localStorage.getItem("goggleLogin")) {
-            setRedirectLoading(true);
-        }
+        // if (localStorage.getItem("goggleLogin")) {
+        //     setRedirectLoading(true);
+        // }
 
         onAuthStateChanged(auth, user => {
             const newUser: any = user;
@@ -55,21 +51,25 @@ const Login = () => {
 
         return () => {
             setIsLoading(false);
-            redirectLoading && localStorage.removeItem("goggleLogin");
-            setRedirectLoading(false);
+            // redirectLoading && localStorage.removeItem("goggleLogin");
+            // setRedirectLoading(false);
         };
     }, []);
 
     const signInGoogle = async () => {
         localStorage.setItem("goggleLogin", "true");
-        await signInWithRedirect(auth, new GoogleAuthProvider());
-        return;
+        // await signInWithRedirect(auth, new GoogleAuthProvider());
+        // const result = await signInWithPopup(auth, new GoogleAuthProvider());
+        signInWithPopup(auth, new GoogleAuthProvider()).catch(err => {
+            console.log(err);
+            toast.error("Login cancelled!");
+        });
     };
 
     //Checks for provider login result, then navigates
-    const getRedirect = async () => {
-        await getRedirectResult(auth);
-    };
+    // const getRedirect = async () => {
+    //     await getRedirectResult(auth);
+    // };
 
     const onSubmit: SubmitHandler<Inputs> = data => {
         setIsLoading(true);
@@ -95,13 +95,13 @@ const Login = () => {
         }
     };
 
-    getRedirect();
+    // getRedirect();
 
     return (
         <Container>
             <div className='relative'>
                 {/* backdrop */}
-                {redirectLoading && (
+                {/* {redirectLoading && (
                     <>
                         <div className='fixed top-0 bottom-0 left-0 right-0 z-30 bg-[rgba(0,0,0,0.4)] '></div>
                         <div className='absolute z-40 top-[40%] left-1/2'>
@@ -156,7 +156,7 @@ const Login = () => {
                             </svg>
                         </div>
                     </>
-                )}
+                )} */}
 
                 <section className='flex justify-center'>
                     <div className='bg-[#fff] h-auto rounded-lg mt-12 p-4  w-11/12 sm:w-[55%] mx-auto'>
@@ -239,7 +239,7 @@ const Login = () => {
                                     className='bg-[#cd2c2c] flex justify-center text-white w-full mt-8 py-4
              px-12 text-xs uppercase cursor-pointer'>
                                     <svg
-                                        width='auto'
+                                        width='36px'
                                         height='36px'
                                         xmlns='http://www.w3.org/2000/svg'
                                         viewBox='0 0 100 100'

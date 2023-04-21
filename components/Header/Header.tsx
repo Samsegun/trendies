@@ -31,9 +31,9 @@ const Header = () => {
     };
 
     const handleLogOut = () => {
-        if (localStorage.getItem("goggleLogin")) {
-            localStorage.removeItem("goggleLogin");
-        }
+        // if (localStorage.getItem("goggleLogin")) {
+        //     localStorage.removeItem("goggleLogin");
+        // }
 
         Cookies.remove("accessToken");
         localStorage.removeItem("cart");
