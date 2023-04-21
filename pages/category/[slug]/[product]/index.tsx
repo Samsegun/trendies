@@ -227,57 +227,19 @@ ProductPage.getLayout = function getLayout(page: ReactElement) {
 };
 
 // to be added when deployed to production
-// export async function getServerSideProps(
-//     context: GetServerSidePropsContext<{ product: string }>
-// ) {
-//     const { product } = context.query;
-//     let productData;
-//     if (typeof product === "string") {
-//         try {
-//             productData = (await getSingleProduct(product)).data;
-//         } catch (error) {
-//             productData = {};
-//             return { props: { product: productData } };
-//         }
-//     }
-
-//     return {
-//         props: {
-//             product: productData,
-//         },
-//     };
-// }
-
-export async function getStaticPaths() {
-    const products = (await getAllProducts()).data.map(product => {
-        let category: string;
-
-        if (product.category === "men's clothing") {
-            category = "mens";
-        } else if (product.category === "women's clothing") {
-            category = "womens";
-        }
-        category = product.category;
-
-        return { slug: category, id: product.id };
-    });
-
-    const paths = products.map(product => ({
-        params: { slug: product.slug, product: product.id.toString() },
-    }));
-
-    return {
-        paths,
-        fallback: true,
-    };
-}
-
-export async function getStaticProps(
-    context: GetStaticPropsContext<{ product: string }>
+export async function getServerSideProps(
+    context: GetServerSidePropsContext<{ product: string }>
 ) {
-    const { product } = context.params!;
-
-    const productData = (await getSingleProduct(product)).data;
+    const { product } = context.query;
+    let productData;
+    if (typeof product === "string") {
+        try {
+            productData = (await getSingleProduct(product)).data;
+        } catch (error) {
+            productData = {};
+            return { props: { product: productData } };
+        }
+    }
 
     return {
         props: {
@@ -285,5 +247,43 @@ export async function getStaticProps(
         },
     };
 }
+
+// export async function getStaticPaths() {
+//     const products = (await getAllProducts()).data.map(product => {
+//         let category: string;
+
+//         if (product.category === "men's clothing") {
+//             category = "mens";
+//         } else if (product.category === "women's clothing") {
+//             category = "womens";
+//         }
+//         category = product.category;
+
+//         return { slug: category, id: product.id };
+//     });
+
+//     const paths = products.map(product => ({
+//         params: { slug: product.slug, product: product.id.toString() },
+//     }));
+
+//     return {
+//         paths,
+//         fallback: true,
+//     };
+// }
+
+// export async function getStaticProps(
+//     context: GetStaticPropsContext<{ product: string }>
+// ) {
+//     const { product } = context.params!;
+
+//     const productData = (await getSingleProduct(product)).data;
+
+//     return {
+//         props: {
+//             product: productData,
+//         },
+//     };
+// }
 
 export default ProductPage;
