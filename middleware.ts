@@ -10,9 +10,9 @@ export default function middleware(req: NextRequest) {
     // }
 
     // // use this if statement when running in prod enviroment
-    // if (!verify && url.includes("/checkout")) {
-    //     return NextResponse.redirect("https://trendies.vercel.app/login");
-    // }
+    if (!verify && url.includes("/checkout")) {
+        return NextResponse.redirect("https://trendies.vercel.app/login");
+    }
 
     // if (!verify) {
     //     return NextResponse.redirect("http://localhost:3000/");

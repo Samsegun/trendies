@@ -47,13 +47,13 @@ const Checkout: NextPageWithLayout = () => {
         formState: { errors },
     } = useForm<Inputs>();
 
-    useEffect(() => {
-        onAuthStateChanged(auth, user => {
-            if (!user) {
-                back();
-            }
-        });
-    }, []);
+    // useEffect(() => {
+    //     onAuthStateChanged(auth, user => {
+    //         if (!user) {
+    //             back();
+    //         }
+    //     });
+    // }, []);
 
     // paystack
     const publicKey = process.env.NEXT_PUBLIC_PAYSTACK_PUB_KEY;
