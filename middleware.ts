@@ -4,19 +4,17 @@ export default function middleware(req: NextRequest) {
     let verify = req.cookies.get("accessToken")?.value;
     let url = req.url;
 
-    const env = process.env.NODE_ENV;
-
-    // if (env == "development") {
-    //     console.log("dev");
-    // } else if (env == "production") {
-    //     console.log("prod");
+    // use this if statement when running in dev enviroment
+    // if (!verify && url.includes("/checkout")) {
+    //     return NextResponse.redirect("http://localhost:3000/login");
     // }
 
-    if (!verify && url.includes("/checkout") && env == "development") {
-        return NextResponse.redirect("http://localhost:3000/login");
-    }
-
-    if (!verify && url.includes("/checkout") && env == "production") {
+    // // use this if statement when running in prod enviroment
+    if (!verify && url.includes("/checkout")) {
         return NextResponse.redirect("https://trendies.vercel.app/login");
     }
+
+    // if (!verify) {
+    //     return NextResponse.redirect("http://localhost:3000/");
+    // }
 }
