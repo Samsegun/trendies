@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
+import Cookies from "js-cookie";
 
 export default function middleware(req: NextRequest) {
-    // console.log(req.);
-
     let verify = req.cookies.get("accessToken")?.value;
+
+    if (verify) {
+        Cookies.set("accessToken", verify, { sameSite: "None" });
+    }
+
     let url = req.url;
 
     if (!verify && url.includes("/checkout")) {
