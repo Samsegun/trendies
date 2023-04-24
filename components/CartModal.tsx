@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 
 const CartModal = () => {
     const { push } = useRouter();
+
     const { cart, totals, removeCartItem, resetCart } = useCartStore(
         state => state
     );
@@ -76,9 +77,11 @@ const CartModal = () => {
                 className='bg-[#e33f3f] text-white uppercase
               w-full text-xs font-semibold tracking-widest
               hover:bg-[#e33f3fe5]'>
-                <Link href='/checkout' className='block px-12 py-4'>
+                <span
+                    onClick={() => push("/checkout")}
+                    className='block px-12 py-4'>
                     Checkout
-                </Link>
+                </span>
             </button>
         </section>
     );
