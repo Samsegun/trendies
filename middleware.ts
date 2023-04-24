@@ -1,21 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import Cookies from "js-cookie";
+import next from "next";
 
 export default function middleware(req: NextRequest) {
-    let verify = req.cookies.get("accessToken")?.value;
-
-    if (verify) {
-        Cookies.set("accessToken", verify, { sameSite: "None" });
-    }
-
-    let url = req.url;
-
-    if (!verify && url.includes("/checkout")) {
-        const url = req.nextUrl.clone();
-        url.pathname = "/login";
-        return NextResponse.redirect(url);
-    }
-
+    // let verify = req.cookies.get("accessToken")?.value;
+    // if (verify) {
+    //     Cookies.set("accessToken", verify, { sameSite: "None" });
+    // }
+    // let url = req.url;
+    // if (!verify && url.includes("/checkout")) {
+    //     const url = req.nextUrl.clone();
+    //     url.pathname = "/login";
+    //     return NextResponse.redirect(url);
+    // }
     // let verify = req.cookies.get("accessToken")?.value;
     // let url = req.url;
     // use this if statement when running in dev enviroment
