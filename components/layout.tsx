@@ -1,9 +1,8 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { ModalContext } from "@/context/ModalCtx";
 import { useRouter } from "next/router";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
-import { collection, doc, setDoc, getDoc } from "firebase/firestore";
 import "react-toastify/dist/ReactToastify.css";
 import { initialize } from "@/firebase";
 // import { ParamsProvider } from "@/context/productParams";
