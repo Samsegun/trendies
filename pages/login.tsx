@@ -6,7 +6,6 @@ import {
     createUserWithEmailAndPassword,
     GoogleAuthProvider,
     signInWithEmailAndPassword,
-    getRedirectResult,
     onAuthStateChanged,
     signInWithPopup,
 } from "firebase/auth";

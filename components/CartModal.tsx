@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { useCartStore } from "@/store/cart";
-import Link from "next/link";
 import { useRouter } from "next/router";
 
 const CartModal = () => {

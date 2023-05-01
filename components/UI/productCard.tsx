@@ -4,31 +4,12 @@ import { onAuthStateChanged } from "firebase/auth";
 import { initialize } from "@/firebase";
 import { collection, doc, setDoc } from "firebase/firestore";
 import styles from "../../styles/FeaturedProducts.module.css";
-import starIcon from "../../public/assets/star-filled.svg";
 import wishIcon from "../../public/assets/wishListIcon.svg";
 import addIcon from "../../public/assets/add_shopping_cart.svg";
 import { ProductArray, Product } from "@/types/productType";
 import { useCartStore } from "@/store/cart";
 
 type Props = { children: ReactNode };
-type AddToCart = {
-    addToCart: (
-        id: number,
-        name: string,
-        qty: number,
-        price: number,
-        image: string
-    ) => void;
-    product: Product;
-    cart: {
-        id: number;
-        name: string;
-        qty: number;
-        price: number;
-        image: string;
-    }[];
-    removeCartItem: (id: number) => void;
-};
 
 export const StarRates = ({ rate }: { rate: number }) => {
     let counts = rate;
